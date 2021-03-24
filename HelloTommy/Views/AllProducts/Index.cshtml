@@ -1,0 +1,24 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "All Sneakers";
+    var counter = 0;
+
+}
+<link rel="stylesheet" href="~/css/navbar.css"/>
+<link rel="stylesheet" href="~/Shared/navbar.cshtml"/>
+
+<div class="main-container">
+
+    @foreach (var shoe in Model)
+    {
+        <div class="product-card">
+            <a href="/Product/@(shoe.Id)" class="product-image">
+                <img src="@(shoe.PictureUrl)"/>
+            </a>
+            <a href="/Product/@(shoe.Id)" class="product-text">
+                @shoe.Name <br/>
+                @($"{shoe.Price:c}")
+            </a>
+        </div>
+    }
+</div>

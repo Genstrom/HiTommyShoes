@@ -1,0 +1,22 @@
+﻿@using hiTommy.Models
+@model dynamic
+@{
+    ViewData["Title"] = "Brand";
+    List<Shoe> shoes = Model.Shoes;
+}
+
+<div class="main-container">
+
+    @foreach (var shoe in shoes)
+    {
+        <div class="product-card">
+            <a href="/Product/@(shoe.Id)" class="product-image">
+                <img src="@(shoe.PictureUrl)"/>
+            </a>
+            <a href="/Product/@(shoe.Id)" class="product-image">
+                @shoe.Name <br/>
+                @($"{shoe.Price:c}")
+            </a>
+        </div>
+    }
+</div>

@@ -1,0 +1,16 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Admin";
+}
+    @section Styles{
+        <link rel="stylesheet" href="@Url.Content("~/css/admin.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")" />
+    }
+
+
+<div class="admin-container">
+    <a class="btn btn-success" href="/Admin/add-shoe">Add Shoe</a>
+    <a class="btn btn-success" href="/Admin/add-brand">Add Brand</a>
+    <a class="btn btn-danger" href="/Admin/delete-shoe">Delete Shoe</a>
+    <a class="btn btn-danger" href="/Admin/delete-brand">Delete Brand</a>
+</div>

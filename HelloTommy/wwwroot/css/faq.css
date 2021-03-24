@@ -1,0 +1,75 @@
+/* Global properties */
+
+
+main {
+    margin: 10rem 30rem;
+}
+
+/* Questions */
+.main-text {
+    font-size: 50px;
+}
+
+.questions-container {
+    margin-top: 5rem;
+}
+
+.question {
+    margin: 5rem 2rem;
+}
+
+    .question h5 {
+        font-size: 24px;
+        margin-bottom: 1rem;
+    }
+
+    .question p {
+        margin-left: 0rem;
+        font-size: 18px;
+    }
+
+/* Contact Card */
+.card-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 3rem;
+    height: auto;
+    background-color: var(--black-1);
+}
+
+.card-text {
+    flex: 1;
+    color: var(--white-1);
+}
+
+    .card-text h5 {
+        font-size: 34px;
+    }
+
+    .card-text p {
+        font-size: 28px;
+    }
+
+.card-btn {
+    margin-right: 1rem;
+}
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+    main {
+        margin: 5rem 5rem;
+    }
+
+    .card-container {
+        display: block;
+        flex-direction: row;
+        padding: 4rem;
+    }
+
+    .card-text,
+    .card-btn {
+        margin: 2rem 0;
+    }
+}

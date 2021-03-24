@@ -1,0 +1,115 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-weight: 300;
+    line-height: 30px;
+    color: black;
+}
+
+h4 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    background: #fff;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    font-size: 12px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+#contact input[type="text"],
+#contact input[type="email"],
+#contact textarea,
+#contact button[type="submit"] {
+    font: 400 12px/16px "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+#contact {
+    background: #AAA;
+    padding: 25px;
+    margin: 50px 0;
+}
+
+    #contact h4 {
+        margin: 5px 0 15px;
+        display: block;
+        font-size: 13px;
+    }
+
+fieldset {
+    display: flex;
+    align-items: center;
+    border: medium none !important;
+    margin: 0 0 10px;
+    min-width: 100%;
+    padding: 0;
+    width: 100%;
+}
+
+
+#contact input[type="text"],
+#contact input[type="email"],
+#contact textarea {
+    width: 100%;
+    border: 1px solid #CCC;
+    background: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+}
+
+    #contact input[type="text"]:hover,
+    #contact input[type="email"]:hover,
+    #contact textarea:hover {
+        transition: border-color 0.3s ease-in-out;
+        border: 1px solid #AAA;
+    }
+
+#contact textarea {
+    height: 100px;
+    max-width: 100%;
+    resize: none;
+}
+
+#contact input[type="submit"]:hover {
+    color: #fff;
+    background-color: black;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#contact input[type="submit"] {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    width: 50%;
+    border: none;
+    color: #fff;
+    background-color: #333;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+    #contact input[type="submit"]:active {
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+#contact input:focus, #contact textarea:focus {
+    outline: 0;
+    border: 1px solid #999;
+}
+
+#auto-height {
+    height: auto;
+}

@@ -1,0 +1,39 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Contact";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/contact-page.css")" />
+}
+
+
+<div class="form-container">
+    <form id="contact" method="POST">
+        <h1>Contact Us!</h1>
+        <h4>Having issues or general feedback? Let us know!</h4>
+        <fieldset>
+            <label for="Name"></label>
+            <input type="text" id="Name" placeholder="Your name goes here" name="name" />
+        </fieldset>
+        <fieldset>
+            <label for="Email"></label>
+            <input type="text" id="Email" placeholder="Your email goes here" name="email" />
+        </fieldset>
+        <fieldset>
+            <select id="subject" name="subject" tabindex="3">
+                <option value="Price">Product Price Question</option>
+                <option value="shipping">Shipping Enquires</option>
+                <option value="About my Order">About my order?</option>
+                <option value="Return of Order">Return Order</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <label for="Message"></label>
+            <textarea type="text" id="Message" placeholder="Your message goes here" name="message"></textarea>
+        </fieldset>
+        <fieldset>
+            <input type="submit" value="Send" name="submit" id="contact-submit" data-submit="...Sending">
+        </fieldset>
+    </form>
+</div>

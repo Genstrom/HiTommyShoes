@@ -1,0 +1,21 @@
+.admin-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.admin-container a {
+    /*margin: 2rem;
+    padding: 2rem;
+    transition: all 200ms ease-in-out;*/
+}
+
+.green {
+    background-color: lawngreen;
+}
+
+.red {
+    background-color: red;
+}

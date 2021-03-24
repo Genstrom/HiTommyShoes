@@ -1,0 +1,11 @@
+.main-text, .question {
+    text-align: center;
+}
+
+.main-text h3 {
+    margin: 3rem;
+}
+
+    .question p {
+        margin: 10rem;
+    }

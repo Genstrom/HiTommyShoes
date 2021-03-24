@@ -1,0 +1,23 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Admin - Add Brand";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/admin-sub.css")" />
+}
+
+
+<div class="form-container">
+    <form id="contact" method="POST">
+        <h1>Add a new brand</h1>
+        <h4>Super secret admin site</h4>
+        <fieldset>
+            <label for="Name"></label>
+            <input type="text" id="Name" placeholder="Brand name goes brrr" name="name" />
+        </fieldset>
+        <fieldset>
+            <input type="submit" value="Send" name="submit" id="contact-submit" data-submit="...Sending">
+        </fieldset>
+    </form>
+</div>

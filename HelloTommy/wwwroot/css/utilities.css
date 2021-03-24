@@ -1,0 +1,31 @@
+/* Utilities */
+.faq-wrapper {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+}
+
+:root {
+    --black-1: rgb(19, 22, 26);
+    --white-1: rgb(255, 255, 255);
+}
+
+.btn-main {
+    width: auto;
+    height: auto;
+    padding: 1.5rem 2rem;
+    border: 4px solid var(--white-1);
+    background-color: var(--black-1);
+    color: var(--white-1);
+    font-size: 20px;
+    font-weight: normal;
+    outline: none;
+    cursor: pointer;
+    transition: .2s ease-out;
+}
+
+    .btn-main:hover {
+        background-color: var(--white-1);
+        color: var(--black-1);
+    }

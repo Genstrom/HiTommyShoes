@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "FAQ";
+}
+
+    @section Styles{
+        <link rel="stylesheet" href="@Url.Content("~/css/faq.css")">
+        <link rel="stylesheet" href="@Url.Content("~/css/utilities.css")">
+    }
+
+<div class="faq-wrapper">
+    <div class="main-text">
+        <h3>FAQ</h3>
+        <hr>
+    </div>
+
+    <article class="questions-container">
+        <div class="question">
+            <h5>Do you ship worldwide?</h5>
+            <p>Yes we do. We ship to most countries in the world.</p>
+        </div>
+        <div class="question">
+            <h5>Which couriers do you use?</h5>
+            <p>- Orders to Gothenburg will be delivered personally by our staff.</p>
+            <p>- Orders to Sweden will be delivered by either PostNord or DHL Freight.</p>
+            <p>- Orders to Rest of the World will be delivered by DHL Express.</p>
+        </div>
+        <div class="question">
+            <h5>How much is shipping?</h5>
+            <p>- We offer 12-24 hours LOCAL DELIVERY in Gothenburg, Sweden.</p>
+            <p>- W1-2 working days FREE DELIVERY IN SWEDEN.</p>
+            @*<p>- International order delivery fees are calculated at the checkout.</p>*@
+        </div>
+        <div class="question">
+            <h5>When will my order arrive?</h5>
+            <p>- Domestic order processing take no longer than one working day.</p>
+            <p>- International order processing will take between 1-3 days.</p>
+            <p>- We try our best to label, box, and ship out your order the same day you placed it.</p>
+            <p>- We offer 12-24 hours free door to door delivery through Stockholm City, even during the weekends.</p>
+            <p>- Once your order is shipped you will receive an e-mail with tracking information.</p>
+        </div>
+        <div class="question">
+            <h5>Which paymentmethods do you accept?</h5>
+            <p>- We work with Stripe which allows us to offer you credit/debit card payments through companies such as Visa, Maestro, MasterCard and American Express.</p>
+            <p>- We also accept PayPal.</p>
+            <p>- For customers in SWEDEN ONLY we also offer payment via Swish, Klarna Pay Later and Klarna Slice It.</p>
+        </div>
+    </article>
+
+    <section>
+        <div class="card-container">
+            <div class="card-text">
+                <h5>Have other questions?</h5>
+                <p>Contact us and we will get back to you within 24 hours</p>
+            </div>
+            <div class="card-btn">
+                <a class="btn-main" href="/Contact">Contact us!</a>
+            </div>
+        </div>
+    </section>
+</div>

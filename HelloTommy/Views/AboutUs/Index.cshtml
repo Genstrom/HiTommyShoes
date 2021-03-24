@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/aboutus.css")">
+}
+
+<div id="main-content">
+    <div class="infobox">
+        <h2 class="infobox-header">The Story</h2>
+        <p class="infobox-text">
+            What do seven sneaker freaks do when there's no golden place to get the best sneakers?
+            Create their own golden place of course!
+        </p>
+    </div>
+
+    <div class="infobox" id="parallax"></div>
+
+    <div class="infobox">
+        <h2 class="infobox-header">The Vision</h2>
+        <p class="infobox-text">
+            We strive to be the best and most attractive dealer of exclusive sneakers for all the other sneaker freaks out there.
+            To serve the best, we need to be the best.
+            We aim high, shoot straight and deliver top-notch shoes for top-notch people!
+        </p>
+    </div>
+
+    <div class="infobox" id="parallax"></div>
+
+    <div class="infobox">
+        <h2 class="infobox-header">The Promise</h2>
+        <p class="infobox-text">
+            Our promise is to deliver high end service throughout your whole Sneaker-Experience.
+            If you're still looking after a glance at our products, we probably failed. And we don't do failures!
+        </p>
+    </div>
+
+    <div class="infobox" id="parallax"></div>
+</div>
+<script src="~/js/parallax.js"></script>

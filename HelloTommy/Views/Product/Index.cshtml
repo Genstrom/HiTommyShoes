@@ -1,0 +1,43 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Product";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/product-page.css")">
+}
+
+
+<main>
+    <div class="product-container">
+        <img class="product" src="@(Model.Shoe.PictureUrl)" />
+        <div class="product-description">
+            <br>
+            <p>@Model.Shoe.Description</p>
+        </div>
+        <div class="product-info">
+            <h2>@Model.Shoe.Name</h2>
+            <h3>@($"{Model.Shoe.Price:c}")</h3>
+        @*</div>*@
+        @*<div class="dropdown-container">*@
+            <form action="/Checkout" method="post" id="form-container">
+                <label for="size" class="size-label">Size &nbsp;</label>
+                <select name="size" id="size" class="product-select">
+                    @for (int i = 0; i < Model.Shoe.Sizes.Count; i++)
+                    {
+                        <option value=@Model.Shoe.Sizes[i].Size>@($"{Model.Shoe.Sizes[i].Size}")</option>
+
+                    }
+
+                </select>
+                <input type="hidden" name="shoeId" value="@Model.Shoe.Id" />
+                @*<input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">*@
+                <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">
+            </form>
+        </div>
+        @*<div class="button-section">*@
+
+
+        @*</div>*@
+    </div>
+</main>

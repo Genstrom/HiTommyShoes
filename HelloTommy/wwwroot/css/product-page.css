@@ -1,0 +1,118 @@
+.product-description h2 {
+    font-size: 2rem;
+}
+
+.product-description p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.25rem;
+}
+
+.product-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+}
+
+.product {
+    object-fit: contain;
+    width: 50%;
+    height: 50%;
+}
+
+.product-description {
+    text-align: center;
+    width: 50%;
+    height: 50%;
+    padding: 2rem;   
+}
+
+.product-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 5rem 0rem;
+    align-items: center;
+}
+
+.product-info h2 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2rem;
+    padding: 4rem 0;
+}
+
+.product-info h3 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5rem;
+}
+
+/* Dropdown */
+
+.dropdown-container {
+    display: flex;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    height: 25%;
+    align-items: center;
+    margin: 0 8rem;
+    justify-content: center;
+}
+
+.size-label {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.product-select {
+    width: 15rem;
+    height: 1.5rem;
+}
+
+/* Buttons  */
+
+
+.cart-button, .buy-button {
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    width: 14rem;
+    height: 4rem;
+    color: #fff;
+    background-color: #333;
+    padding: 1rem;
+    margin-left: 3rem;
+    transition: all 300ms ease-in-out;
+}
+
+.cart-button:hover, .buy-button:hover {
+    background-color: black;
+}
+
+#buy-link {
+    color: #fff;
+}
+
+#form-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 40%;
+    height: 33%;
+    margin-top: 5rem;
+}
+
+/*#image-button {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-bottom: 2rem;
+    font-size: 0.8rem;
+}*/
+
+
+/*#image-button {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-bottom: 2rem;
+    font-size: 0.8rem;
+}*/

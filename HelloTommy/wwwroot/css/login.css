@@ -1,0 +1,48 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3rem;
+}
+
+.login-page {
+    margin: 2rem;
+    padding: 0.6rem;
+    border: 2px solid #343434;
+    width: 100%;
+}
+
+.registration-page {
+    margin: 2rem;
+    padding: 0.6rem;
+    border: 2px solid #c41f1f;
+    width: 100%;
+}
+
+.login-page input {
+    width: 100%;
+    height: 2rem;
+}
+
+.login-page fieldset {
+    margin: 1rem 0;
+}
+
+.registration-page input {
+    width: 100%;
+    height: 2rem;
+}
+
+.registration-page fieldset {
+    margin: 1rem 0;
+}
+
+.registration-page .birthdate {
+    display: flex;
+    gap: 1rem;
+}

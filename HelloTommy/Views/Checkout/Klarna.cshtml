@@ -1,0 +1,10 @@
+﻿@model Klarna.Rootobject
+@{ ViewData["Title"] = "Checkout";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/checkout.css")">
+}
+<div style="padding: 3rem;">
+    @Html.Raw(@Model.html_snippet)
+</div>
