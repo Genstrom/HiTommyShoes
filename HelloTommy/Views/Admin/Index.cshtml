@@ -4,13 +4,56 @@
 }
     @section Styles{
         <link rel="stylesheet" href="@Url.Content("~/css/admin.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")" />
+        @*<link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")" />*@
     }
 
+<section class="container">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var shoe in Model.AllShoes)
+                    {
+                        <tr>
+                            <td>@shoe.Id</td>
+                            <td>@shoe.Name</td>
+                            <td>@shoe.Brand</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Brand</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var brand in Model.Brand)
+                    {
+                        <tr>
+                            <td>@brand.Id</td>
+                            <td>@brand.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 
 <div class="admin-container">
-    <a class="btn btn-success" href="/Admin/add-shoe">Add Shoe</a>
-    <a class="btn btn-success" href="/Admin/add-brand">Add Brand</a>
-    <a class="btn btn-danger" href="/Admin/delete-shoe">Delete Shoe</a>
-    <a class="btn btn-danger" href="/Admin/delete-brand">Delete Brand</a>
+    <a class="btn btn-green" href="/Admin/add-shoe">Add Shoe</a>
+    <a class="btn btn-green" href="/Admin/add-brand">Add Brand</a>
+    <a class="btn btn-red" href="/Admin/delete-shoe">Delete Shoe</a>
+    <a class="btn btn-red" href="/Admin/delete-brand">Delete Brand</a>
 </div>

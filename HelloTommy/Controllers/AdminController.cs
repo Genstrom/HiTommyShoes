@@ -6,6 +6,7 @@ using System.Dynamic;
 
 namespace HelloTommy.Controllers
 {
+
     [Route("admin")]
     public class AdminController : Controller
     {
@@ -18,11 +19,21 @@ namespace HelloTommy.Controllers
             _brandServices = brandServices;
             _shoesService = shoesService;
         }
-
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var allShoesVm = new ShoeListViewModel
+            {
+                Shoes = _shoesService.GetAllShoes()
+            };
+            var allBrandsVM = _brandServices.GetAllBrands();
+
+            dynamic myModel = new ExpandoObject();
+
+            myModel.AllShoes = allShoesVm.Shoes;
+            myModel.Brand = allBrandsVM;
+
+            return View(myModel);
         }
 
         [Route("add-shoe")]
@@ -45,7 +56,7 @@ namespace HelloTommy.Controllers
 
         [Route("add-shoe")]
         [HttpPost]
-        public ActionResult Index(string name, int price, int brandId, string picture, string description)
+        public ActionResult AddShoeView(string name, int price, int brandId, string picture, string description)
         {
             var allShoesVm = new ShoeListViewModel
             {
@@ -82,7 +93,7 @@ namespace HelloTommy.Controllers
                 ViewBag.Error = "Some Error";
             }
 
-            return View("Index", myModel);
+            return RedirectToAction("Index", myModel);
         }
 
         [Route("delete-shoe")]
@@ -132,7 +143,7 @@ namespace HelloTommy.Controllers
                 ViewBag.Error = "Some Error";
             }
 
-            return View("Index", myModel);
+            return RedirectToAction("Index", myModel);
         }
 
         [Route("add-brand")]
@@ -190,7 +201,57 @@ namespace HelloTommy.Controllers
                 ViewBag.Error = "Some Error";
             }
 
-            return View("Index", myModel);
+            return RedirectToAction("Index", myModel);
+        }
+
+        [Route("delete-brand")]
+        [HttpGet]
+        public IActionResult DeleteBrandView()
+        {
+            var allShoesVm = new ShoeListViewModel
+            {
+                Shoes = _shoesService.GetAllShoes()
+            };
+            var allBrandsVM = _brandServices.GetAllBrands();
+
+            dynamic myModel = new ExpandoObject();
+
+            myModel.AllShoes = allShoesVm.Shoes;
+            myModel.Brand = allBrandsVM;
+
+
+            return View(myModel);
+        }
+
+        [Route("delete-brand")]
+        [HttpPost]
+        public ActionResult DeleteBrandView(int id)
+        {
+            var allShoesVm = new ShoeListViewModel
+            {
+                Shoes = _shoesService.GetAllShoes()
+            };
+            var allBrandsVM = _brandServices.GetAllBrands();
+
+
+            dynamic myModel = new ExpandoObject();
+
+            myModel.AllShoes = allShoesVm.Shoes;
+            myModel.Brand = allBrandsVM;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _brandServices.DeleteBrandById(id);
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Some Error";
+            }
+
+            return RedirectToAction("Index", myModel);
         }
     }
 }

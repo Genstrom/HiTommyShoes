@@ -20,4 +20,13 @@
             <input type="submit" value="Send" name="submit" id="contact-submit" data-submit="...Sending">
         </fieldset>
     </form>
+
+    <div class="brand-list-container">
+        <ul>
+            @foreach (var brand in Model.Brand)
+            {
+                <li>Brand: @brand.Name   Id: @brand.Id </li>
+            }
+        </ul>
+    </div>
 </div>

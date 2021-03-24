@@ -14,10 +14,19 @@
         <h4>Super secret admin site</h4>
         <fieldset>
             <label for="Name"></label>
-            <input type="text" id="Name" placeholder="Brand name goes brrr" name="name" />
+            <input type="number" id="id" placeholder="Brand ID goes brrr" name="id" />
         </fieldset>
         <fieldset>
-            <input type="submit" value="Send" name="submit" id="contact-submit" data-submit="...Sending">
+            <input type="submit" value="Send" name="submit" id="brand-submit" data-submit="...Sending">
         </fieldset>
     </form>
+
+    <div class="brand-list-container">
+        <ul>
+            @foreach (var brand in Model.Brand)
+            {
+                <li>Brand: @brand.Name   Id: @brand.Id </li>
+            }
+        </ul>
+    </div>
 </div>
