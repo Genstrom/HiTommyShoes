@@ -28,6 +28,9 @@ namespace HelloTommy
             services.AddTransient<ShoeServices>();
             services.AddTransient<BrandServices>();
             services.AddTransient<QuantityService>();
+            services.AddTransient<CustomerService>();
+            services.AddTransient<OrderService>();
+            services.AddTransient<MailServices>();
             services.AddDbContext<Data.ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ShoeStoreConnectionString")));

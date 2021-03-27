@@ -19,6 +19,7 @@ namespace HelloTommy.Models
             public decimal order_tax_amount { get; set; }
             public Order_Lines[] order_lines { get; set; }
             public Merchant_Urls merchant_urls { get; set; }
+            public string merchant_reference1 { get; set; }
         }
 
         public class Merchant_Urls
@@ -28,6 +29,7 @@ namespace HelloTommy.Models
             public string confirmation { get; set; }
             public string push { get; set; }
         }
+        
 
         public class Order_Lines
         {

@@ -41,7 +41,10 @@ namespace hiTommy.Data.Services
         {
             return _context.Shoes.FirstOrDefault(n => n.Id == shoeId);
         }
-
+        public Shoe GetShoeByName(string shoeName)
+        {
+            return _context.Shoes.FirstOrDefault(n => n.Name == shoeName);
+        }
         public Shoe UpdateShoeById(int shoeId, ShoeViewModel shoe)
         {
             var _shoe = _context.Shoes.FirstOrDefault(n => n.Id == shoeId);

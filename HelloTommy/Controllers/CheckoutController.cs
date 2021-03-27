@@ -1,4 +1,5 @@
 ﻿using HelloTommy.Models;
+using hiTommy.Data.Models;
 using hiTommy.Data.Services;
 using hiTommy.Data.ViewModels;
 using hiTommy.Models;
@@ -41,7 +42,7 @@ namespace HelloTommy.Controllers
 
         [Route("Checkout")]
         [HttpPost]
-        public ActionResult CheckoutKlarna(int size, int shoeId)
+        public ActionResult CheckoutKlarna(int size, int shoeId, string email)
         {
             dynamic myModel = new ExpandoObject();
             var _shoe = shoeService.GetShoeById(shoeId);
@@ -60,7 +61,7 @@ namespace HelloTommy.Controllers
             {
                 type = "physical",
                 reference = "1337-GBG",
-                name = _shoe.Name,
+                name = _shoe.Name +","+size ,
                 quantity = 1,
                 quantity_unit = "pcs",
                 unit_price = price,
@@ -80,6 +81,7 @@ namespace HelloTommy.Controllers
                 push = @"https://www.example.com/api/push"
             };
 
+            var order = new Order();
             var root = new KlarnaPost.Rootobject()
             {
                 purchase_country = "SE",
@@ -88,7 +90,8 @@ namespace HelloTommy.Controllers
                 order_amount = order_Lines.total_amount,
                 order_tax_amount = order_Lines.total_tax_amount,
                 order_lines = order_lines_array,
-                merchant_urls = merchant
+                merchant_urls = merchant,
+                merchant_reference1 = order.OrderId.ToString()
 
             };
 
@@ -111,6 +114,7 @@ namespace HelloTommy.Controllers
             
             return View("Klarna", klarna);
         }
+
 
     }
 }

@@ -11,6 +11,7 @@ namespace hiTommy.Data.ViewModels
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public string TelephoneNumber { get; set; }
+        public string City { get; set; }
     }
 
     public class CustomerWithOrdersVm

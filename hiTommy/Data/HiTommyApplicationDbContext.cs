@@ -14,6 +14,6 @@ namespace hiTommy.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Quantity> Quantities { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customers> Customers { get; set; }
     }
 }

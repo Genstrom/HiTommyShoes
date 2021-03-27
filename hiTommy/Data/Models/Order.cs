@@ -11,7 +11,7 @@ namespace hiTommy.Data.Models
 
         //Navigation Properties
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public Customers Customer { get; set; }
 
         public List<Shoe> OrderList { get; set; }
     }

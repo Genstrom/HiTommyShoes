@@ -24,6 +24,17 @@ namespace hiTommy.Data.Services
             return _context.Quantities.Where(n => n.ShoeId == id).OrderBy(n => n.Size).ToList();
         }
 
+        public void RemoveQuantityOnShoeByIdAndSize(int shoeId, int size)
+        {
+            var _quantity = _context.Quantities.FirstOrDefault(n => n.ShoeId == shoeId && n.Size == size);
+            if(_quantity.Quantities != 0)
+            {
+                _quantity.Quantities--;
+            }
+            _context.SaveChanges();
+        }
+
+
         public Quantity AddQuantityToShoeBySizeAndShoeId(double size, int id, QuantityVm quantity)
         {
             var _quantity = _context.Quantities.FirstOrDefault(n => n.Id == id && n.Size == size);
