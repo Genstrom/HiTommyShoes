@@ -41,6 +41,7 @@ h1 {
 
 
 .product-image {
+    font-size: 1.5rem;
     transition: all 300ms ease-in-out;
     
 }

@@ -13,6 +13,9 @@ namespace hiTommy.Data.ViewModels
         public int BrandId { get; set; }
         public string Description { get; set; }
         public string PictureUrl { get; set; }
+        public int Size { get; set; }
+        
+        public int Quantity { get; set; }
     }
 
     public class ShoeSaleViewModel
