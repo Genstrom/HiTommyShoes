@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using hiTommy.Data.Models;
 using hiTommy.Data.ViewModels;
 using hiTommy.Models;
 
@@ -28,8 +29,20 @@ namespace hiTommy.Data.Services
 
                 Brand = _context.Brands.Where(n => n.Id == shoe.BrandId).Select(n => n.Name).FirstOrDefault()
             };
+
+            var quantity = new Quantity
+            {
+                Size = shoe.Size,
+                ShoeId = _shoe.Id,
+                Shoe = _shoe,
+                Quantities = shoe.Quantity
+            };
+
             _context.Shoes.Add(_shoe);
+            _context.Quantities.Add(quantity);
             _context.SaveChanges();
+
+
         }
 
         public List<Shoe> GetAllShoes()

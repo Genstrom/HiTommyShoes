@@ -12,14 +12,15 @@
                 <li>
                     <a href="/AllProducts">All</a>
                 </li>
-                @for (var i = 0; i < 3; i++)
+                @for (var i = 0; i < @Model.Count; i++)
                 {
                     <li>
                         <a href="/Brand/@Model[i].Name/">@Model[i].Name</a>
                     </li>
 
                 }
-                @{ Html.RenderPartial("_LoginPartial", "Common"); }
+                @*@{ Html.RenderPartial("_LoginPartial", "Common"); }*@
+                @*@{ Html.RenderPartial("_CartPartial"); }*@
             </ul>
         </div>
     </nav>

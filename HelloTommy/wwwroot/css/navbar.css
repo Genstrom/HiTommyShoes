@@ -1,3 +1,5 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
+
 /* Navigation */
 
 .box-navbar {
@@ -37,4 +39,10 @@
 ul.navbar-nav {
     position: absolute;
     left: 90%;
+}
+
+/* Cart */
+
+#cart {
+    position:absolute;
 }

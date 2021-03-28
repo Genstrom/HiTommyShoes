@@ -56,7 +56,7 @@ namespace HelloTommy.Controllers
 
         [Route("add-shoe")]
         [HttpPost]
-        public ActionResult AddShoeView(string name, int price, int brandId, string picture, string description)
+        public ActionResult AddShoeView(string name, int price, int size, int quantity, int brandId, string picture, string description)
         {
             var allShoesVm = new ShoeListViewModel
             {
@@ -79,7 +79,8 @@ namespace HelloTommy.Controllers
                         Price = price,
                         BrandId = brandId,
                         PictureUrl = picture,
-                        Description = description
+                        Description = description,
+                        Size = size
                     };
 
                     if (!string.IsNullOrWhiteSpace(shoe.Description))
