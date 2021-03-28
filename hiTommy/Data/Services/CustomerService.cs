@@ -38,7 +38,7 @@ namespace hiTommy.Data.Services
 
         public Customers GetCustomerById(int customerId)
         {
-            return _context.Customers.FirstOrDefault(n => n.Id == customerId);
+            return _context.Customers.First(n => n.Id == customerId);
         }
         public Customers GetCustomerByEmail(string email)
         {

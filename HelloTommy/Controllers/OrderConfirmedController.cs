@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using hiTommy.Data.Models;
 using hiTommy.Data.Services;
 using hiTommy.Data.ViewModels;
 using hiTommy.Models;
@@ -78,13 +79,29 @@ namespace HelloTommy.Controllers
             orderList.Add(_shoe);
 
             customer = _customerService.GetCustomerByEmail(klarna.billing_address.email);
-            var order = new OrderVm
+            var order = _orderService.GetOrderById(int.Parse(klarna.merchant_reference1));
+            order.OrderDateTime = DateTime.Now;
+            order.CustomerId = customer.Id;
+            order.Customer = customer;
+            order.OrderList = orderList;
+            var orderRows = new List<OrderRows>();
+            foreach (var item in orderList)
             {
-                OrderDateTime = DateTime.Now,
-                CustomerId = customer.Id,
-                OrderList = orderList
-            };
-            _orderService.AddOrder(order);
+                orderRows.Add(
+                new OrderRows()
+                {
+                    OrderItemName = item.Name,
+                    OrderItemPrice = item.Price.ToString(),
+                    OrderItemType = item.ToString(),
+                    OrderId = order.OrderId
+                }
+                );
+            }
+
+
+
+            _orderService.AddOrderRows(orderRows);
+            _orderService.UpdateOrder(order);
             _mailHelper.OrderConfirmationMail(_shoe, customer);
 
 

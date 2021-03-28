@@ -23,14 +23,16 @@ namespace HelloTommy.Controllers
 {
     public class CheckoutController : Controller
     {
+        private readonly OrderService _orderService;
         private readonly ShoeServices shoeService;
         private readonly IConfiguration _config;
         private string baseURL = "https://api.playground.klarna.com/";
 
-        public CheckoutController(ShoeServices shoeService, IConfiguration config)
+        public CheckoutController(ShoeServices shoeService, OrderService orderService, IConfiguration config)
         {
             this.shoeService = shoeService;
             _config = config;
+            _orderService = orderService;
         }
 
         public IActionResult Index()
@@ -48,6 +50,10 @@ namespace HelloTommy.Controllers
             var _shoe = shoeService.GetShoeById(shoeId);
             myModel.Shoe = _shoe;
             myModel.Size = size;
+
+            var order = new Order();
+            order = _orderService.AddEmptyOrderAndReturnEmptyOrder(order);
+            var id = order.OrderId;
 
             using var client = new HttpClient();
             client.BaseAddress = new Uri(baseURL);
@@ -81,7 +87,8 @@ namespace HelloTommy.Controllers
                 push = @"https://www.example.com/api/push"
             };
 
-            var order = new Order();
+            
+           
             var root = new KlarnaPost.Rootobject()
             {
                 purchase_country = "SE",
@@ -91,7 +98,7 @@ namespace HelloTommy.Controllers
                 order_tax_amount = order_Lines.total_tax_amount,
                 order_lines = order_lines_array,
                 merchant_urls = merchant,
-                merchant_reference1 = order.OrderId.ToString()
+                merchant_reference1 = id.ToString() 
 
             };
 

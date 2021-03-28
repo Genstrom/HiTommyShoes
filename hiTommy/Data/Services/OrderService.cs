@@ -20,15 +20,17 @@ namespace hiTommy.Data.Services
             return _context.Order.ToList();
         }
 
-        public void AddOrder(OrderVm order)
+        public Order AddEmptyOrderAndReturnEmptyOrder(Order order)
         {
-            var _order = new Order
-            {
-                CustomerId = order.CustomerId,
-                Customer = _context.Customers.FirstOrDefault(n => n.Id == order.CustomerId),
-                OrderDateTime = DateTime.Now
-            };
-            _context.Order.Add(_order);
+            _context.Add(order);
+            _context.SaveChanges();
+            return order;
+        }
+
+
+        public void UpdateOrder(Order _order)
+        {
+            _context.Order.Update(_order);
             _context.SaveChanges();
         }
 
@@ -43,6 +45,11 @@ namespace hiTommy.Data.Services
             if (_order is null) return;
             _context.Order.Remove(_order);
             _context.SaveChanges();
+        }
+
+        public void AddOrderRows(List<OrderRows> orderRowsList)
+        {
+            _context.OrderRows.AddRange(orderRowsList);
         }
     }
 }
