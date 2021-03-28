@@ -16,30 +16,37 @@ namespace hiTommy.Data.Services
 
         public void AddCustomer(CustomerVm customer)
         {
-            var _customer = new Customer
+            var _customer = new Customers
             {
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 Email = customer.Email,
                 Address = customer.Address,
                 PostalCode = customer.PostalCode,
-                TelephoneNumber = customer.TelephoneNumber
+                TelephoneNumber = customer.TelephoneNumber,
+                City = customer.City,
+                Password = ""
             };
             _context.Customers.Add(_customer);
             _context.SaveChanges();
         }
 
-        public List<Customer> GetAllCustomers()
+        public List<Customers> GetAllCustomers()
         {
             return _context.Customers.ToList();
         }
 
-        public Customer GetCustomerById(int customerId)
+        public Customers GetCustomerById(int customerId)
         {
-            return _context.Customers.FirstOrDefault(n => n.Id == customerId);
+            return _context.Customers.First(n => n.Id == customerId);
+        }
+        public Customers GetCustomerByEmail(string email)
+        {
+            return  _context.Customers.First(n => n.Email == email);
+            
         }
 
-        public Customer UpdateCustomerById(int customerId, CustomerVm customer)
+        public Customers UpdateCustomerById(int customerId, CustomerVm customer)
         {
             var _customer = _context.Customers.FirstOrDefault(n => n.Id == customerId);
             if (_customer is null) return _customer;

@@ -6,6 +6,7 @@ namespace hiTommy.Data.ViewModels
 {
     public class OrderVm
     {
+      
         public int CustomerId { get; set; }
         public DateTime OrderDateTime { get; set; }
         public List<Shoe> OrderList { get; set; }

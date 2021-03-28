@@ -32,7 +32,7 @@ namespace hiTommy.Controllers
         [HttpPost("add-order")]
         public IActionResult AddOrder([FromBody] OrderVm order)
         {
-            _orderService.AddOrder(order);
+            //_orderService.AddOrder(order);
             return Ok();
         }
 

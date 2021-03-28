@@ -28,11 +28,20 @@ namespace HelloTommy.Models
             public Options options { get; set; }
             public object[] external_payment_methods { get; set; }
             public object[] external_checkouts { get; set; }
+            public string merchant_reference1 { get; set; }
         }
-
+        
+        
         public class Billing_Address
         {
             public string country { get; set; }
+            public string email { get; set; }
+            public string given_name { get; set; }
+            public string family_name { get; set; }
+            public string street_address { get; set; }
+            public string postal_code { get; set; }
+            public string city { get; set; }
+            public string phone { get; set; }
         }
 
         public class Customer

@@ -40,6 +40,7 @@ namespace hiTommy
             services.AddTransient<BrandServices>();
             services.AddTransient<CustomerService>();
             services.AddTransient<QuantityService>();
+         
 
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "ShoeStore", Version = "v1"}); });
