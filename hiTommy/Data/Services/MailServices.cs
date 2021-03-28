@@ -1,4 +1,5 @@
-﻿using hiTommy.Data.Models;
+﻿using hiTommy.Data.HelperClasses;
+using hiTommy.Data.Models;
 using hiTommy.Models;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,14 +20,14 @@ namespace hiTommy.Data.Services
             _config = config;
         }
 
-        public void OrderConfirmationMail(Shoe shoe, Customers customer, string orderId)
+        public void OrderConfirmationMail(Shoe shoe, MailHelper mailHelper)
         {
             var senderEmail = new MailAddress(_config["EmailName"], "HelloTommyShoes");
-            var receiverEmail = new MailAddress(_config[customer.Email], "Receiver");
+            var receiverEmail = new MailAddress(mailHelper.CustomerEmail, "Receiver");
             var password = _config["EmailPassword"];
-            var sub = $"Order: {orderId} Recieved";
+            var sub = $"Order: {mailHelper.OrderId} Confirmed";
             var message = "";
-            var body = GetWebPageContent(customer.Email, message);
+            var body = GetWebPageContent(receiverEmail.Address, message);
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
@@ -50,6 +51,39 @@ namespace hiTommy.Data.Services
             }
         }
 
+        public void OrderRecievedEmail(MailHelper mailHelper)
+        {
+           
+                var senderEmail = new MailAddress(_config["SenderEmail"], "HelloTommyShoes");
+                var receiverEmail = new MailAddress(_config["EmailName"], "Receiver");
+                var password = _config["EmailPassword"];
+                var sub = $"New Order: #{mailHelper.OrderId} Recieved";
+                var message = "";
+                var body = GetWebPageContent(, message);
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    Subject = sub,
+                    Body = body,
+                    IsBodyHtml = true,
+                    Priority = MailPriority.Normal
+
+
+                })
+                {
+                    smtp.Send(mess);
+                }
+            
+        }
+
         private string GetWebPageContent(string recipient, string customMsg)
         {
             StreamReader objStreamReader = new StreamReader(Server.MapPath(“~/ mailtemplate.htm”));
@@ -60,5 +94,6 @@ namespace hiTommy.Data.Services
             bodyMsg = bodyMsg.Replace(“##somecustommessage##”, customMsg);
             return bodyMsg;
         }
+
     }
 }
