@@ -29,6 +29,7 @@ namespace HelloTommy.Models
             public object[] external_payment_methods { get; set; }
             public object[] external_checkouts { get; set; }
             public string merchant_reference1 { get; set; }
+            public Shipping_Options shipping_options { get; set; }
         }
         
         
@@ -50,7 +51,16 @@ namespace HelloTommy.Models
 
         public class Shipping_Address
         {
+            public string street_address { get; set; }
+            public string postal_code { get; set; }
+            public string city { get; set; }
             public string country { get; set; }
+        }
+
+        public class Shipping_Options
+        {
+            public decimal price { get; set; }
+            public decimal tax_amount { get; set; }
         }
 
         public class Merchant_Urls
