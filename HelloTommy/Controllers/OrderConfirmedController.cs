@@ -102,7 +102,7 @@ namespace HelloTommy.Controllers
 
             _orderService.AddOrderRows(orderRows);
             _orderService.UpdateOrder(order);
-            _mailHelper.OrderConfirmationMail(_shoe, customer, klarna.merchant_reference1);
+            //_mailHelper.OrderConfirmationMail(_shoe, customer, klarna.merchant_reference1);
 
 
             return View(klarna);
