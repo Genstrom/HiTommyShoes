@@ -17,22 +17,23 @@
         <div class="product-info">
             <h2>@Model.Shoe.Name</h2>
             <h3>@($"{Model.Shoe.Price:c}")</h3>
-        @*</div>*@
-        @*<div class="dropdown-container">*@
             <form action="/Checkout" method="post" id="form-container">
-                <label for="size" class="size-label">Size &nbsp;</label>
-                <select name="size" id="size" class="product-select">
-                    @for (int i = 0; i < Model.Shoe.Sizes.Count; i++)
-                    {
-                        <option value=@Model.Shoe.Sizes[i].Size>@($"{Model.Shoe.Sizes[i].Size}")</option>
+                <div class="right-top-container">
+                    <label for="size" class="size-label">Size &nbsp;</label>
+                    <select name="size" id="size" class="product-select">
+                        @for (int i = 0; i < Model.Shoe.Sizes.Count; i++)
+                        {
+                            <option value=@Model.Shoe.Sizes[i].Size>@($"{Model.Shoe.Sizes[i].Size}")</option>
 
-                    }
+                        }
 
-                </select>
-                <a href="#" id="size-chart">Size Chart</a>
-                <input type="hidden" name="shoeId" value="@Model.Shoe.Id" />
-                @*<input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">*@
-                <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">
+                    </select>
+                </div>
+                <div class="right-bottom-container">
+                    <a href="#" id="size-chart">Size Chart</a>
+                    <input type="hidden" name="shoeId" value="@Model.Shoe.Id" />
+                    <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">
+                </div>
             </form>
         </div>
     </div>
