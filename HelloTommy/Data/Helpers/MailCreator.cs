@@ -13,15 +13,15 @@ namespace HelloTommy
 
 
 
-        public static MailHelper MailInfoCreator(Klarna.Rootobject klarna, Order order)
+        public static MailHelper MailInfoCreator(Klarna.Rootobject klarna, Order order, int size)
         {
             return new MailHelper()
             {
                 OrderId = order.OrderId.ToString(),
                 Orderdate = order.OrderDateTime.ToString(),
                 OrderList = order.OrderList,
-                ShippingPrice = klarna.shipping_options.price,
-                ShippingVat = klarna.shipping_options.tax_amount,
+                //ShippingPrice = klarna.shipping_options.price,
+                //ShippingVat = klarna.shipping_options.tax_amount,
                 CustomerName = klarna.billing_address.given_name + klarna.billing_address.family_name,
                 CustomerAdress = klarna.billing_address.street_address,
                 CustomerPostal = klarna.billing_address.postal_code,
@@ -29,7 +29,8 @@ namespace HelloTommy
                 CustomerEmail = klarna.billing_address.email,
                 CustomerShppingAdress = klarna.shipping_address.street_address,
                 CustomerShippingPostal = klarna.shipping_address.postal_code,
-                CustomerShippingCity = klarna.shipping_address.city
+                CustomerShippingCity = klarna.shipping_address.city,
+                ProductSize = size
 
             };
 

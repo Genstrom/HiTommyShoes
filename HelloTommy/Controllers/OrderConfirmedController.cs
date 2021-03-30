@@ -98,11 +98,11 @@ namespace HelloTommy.Controllers
                 );
             }
 
-            var mailhelper = MailCreator.MailInfoCreator(klarna, order);
+            var mailhelper = MailCreator.MailInfoCreator(klarna, order, size);
             _orderService.AddOrderRows(orderRows);
             _orderService.UpdateOrder(order);
-            _mailHelper.OrderConfirmationMail(orderInfo);
-
+            _mailHelper.OrderConfirmationMail(mailhelper);
+            _mailHelper.OrderReceivedEmail(mailhelper);
 
             return View(klarna);
         }

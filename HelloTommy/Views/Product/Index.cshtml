@@ -8,7 +8,6 @@
 }
 
 
-<main>
     <div class="product-container">
         <img class="product" src="@(Model.Shoe.PictureUrl)" />
         <div class="product-description">
@@ -30,14 +29,18 @@
                     }
 
                 </select>
+                <a href="#" id="size-chart">Size Chart</a>
                 <input type="hidden" name="shoeId" value="@Model.Shoe.Id" />
                 @*<input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">*@
                 <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">
             </form>
         </div>
-        @*<div class="button-section">*@
-
-
-        @*</div>*@
     </div>
-</main>
+    <div class="modal" id="modalContainer">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg" src="https://i.imgur.com/PgPnm52.png" />
+    </div>
+
+@section Scripts {
+    <script src="~/js/popup.js"></script>
+} 

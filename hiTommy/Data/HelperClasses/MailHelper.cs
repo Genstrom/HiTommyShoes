@@ -21,6 +21,7 @@ namespace hiTommy.Data.HelperClasses
         public string CustomerShppingAdress { get; set; }
         public string CustomerShippingPostal { get; set; }
         public string CustomerShippingCity { get; set; }
+        public int ProductSize { get; set; }
 
     }
 }

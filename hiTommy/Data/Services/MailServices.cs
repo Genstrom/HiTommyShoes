@@ -26,14 +26,14 @@ namespace hiTommy.Data.Services
             
         }
 
-        public void OrderConfirmationMail(Shoe shoe, MailHelper mailHelper)
+        public void OrderConfirmationMail(MailHelper mailHelper)
         {
             var senderEmail = new MailAddress(_config["EmailName"], "HelloTommyShoes");
             var receiverEmail = new MailAddress(mailHelper.CustomerEmail, "Receiver");
             var password = _config["EmailPassword"];
             var sub = $"Order: {mailHelper.OrderId} Confirmed";
             var message = "";
-            var body = GetWebPageContent(receiverEmail.Address, message);
+            var body = PopulateBody(mailHelper);
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
@@ -57,15 +57,15 @@ namespace hiTommy.Data.Services
             }
         }
 
-        public void OrderRecievedEmail(MailHelper mailHelper)
+        public void OrderReceivedEmail(MailHelper mailHelper)
         {
            
                 var senderEmail = new MailAddress(_config["SenderEmail"], "HelloTommyShoes");
                 var receiverEmail = new MailAddress(_config["EmailName"], "Receiver");
                 var password = _config["EmailPassword"];
-                var sub = $"New Order: #{mailHelper.OrderId} Recieved";
+                var sub = $"New Order: #{mailHelper.OrderId} Received";
                 var message = "";
-                var body = GetWebPageContent(, message);
+                var body = PopulateBody(mailHelper);
                 var smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",
@@ -101,17 +101,19 @@ namespace hiTommy.Data.Services
         //    return bodyMsg;
         //}
 
-        private string PopulateBody(string productName, int productQuantity, string url, string description)
+        private string PopulateBody(MailHelper helper)
         {
             string body = string.Empty;
             using (StreamReader reader = new StreamReader(@"C:\Users\tommy\Desktop\Projekt\hiTommyMain\hiTommyShoes\HelloTommy\EmailTemplates\OrderReceived.html"))
             {
                 body = reader.ReadToEnd();
             }
-            body = body.Replace("{ProductName}", productName);
-            body = body.Replace("{ProductQuantity}", productQuantity);
-            body = body.Replace("{}", url);
-            body = body.Replace("{Description}", description);
+            body = body.Replace("{ProductName}", helper.OrderList[0].Name);
+            body = body.Replace("{ProductQuantity}", helper.OrderList.Count().ToString());
+            body = body.Replace("{ProductPrice}", helper.OrderList[0].Price.ToString());
+            body = body.Replace("{OrderDate}", helper.Orderdate);
+            body = body.Replace("{ImageUrl}", helper.OrderList[0].PictureUrl);
+            body = body.Replace("{ProductSize}", helper.ProductSize.ToString());
             return body;
         }
 

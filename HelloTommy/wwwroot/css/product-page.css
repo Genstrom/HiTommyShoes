@@ -83,7 +83,6 @@
     color: #fff;
     background-color: #333;
     padding: 1rem;
-    margin-left: 3rem;
     transition: all 300ms ease-in-out;
 }
 
@@ -116,3 +115,55 @@
     margin-bottom: 2rem;
     font-size: 0.8rem;
 }*/
+
+a#size-chart {
+    position: relative;
+    right: 10rem;
+    top: 5rem;
+}
+
+/* Modal Popup*/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
