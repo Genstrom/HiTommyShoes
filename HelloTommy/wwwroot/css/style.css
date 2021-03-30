@@ -33,7 +33,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    padding: 5rem 20rem;
+    padding: 5% 20%;
     gap: 0.5rem;
     justify-content: center;
 
@@ -47,7 +47,7 @@ h1 {
 }
 .product-card {
     width: 25%;
-    padding: 30px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
@@ -102,4 +102,33 @@ a.product-text {
     min-height: 100vh;
     flex-direction: column;
     justify-content: space-between;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 1200px){
+
+    .main-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        padding: 5% 20%;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .product-card {
+        width: 75%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 850px) {
+
+    .main-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
 }

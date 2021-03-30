@@ -46,3 +46,18 @@ ul.navbar-nav {
 #cart {
     position:absolute;
 }
+
+/* Media Queries */
+
+@media screen and (max-width: 850px) {
+
+    .box-navbar a {
+        margin: 0.5rem 1rem;
+    }
+
+    .nav-items a {
+        font-family: 'Roboto Mono', monospace;
+        letter-spacing: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
