@@ -40,7 +40,9 @@ namespace hiTommy
             services.AddTransient<BrandServices>();
             services.AddTransient<CustomerService>();
             services.AddTransient<QuantityService>();
-         
+            services.AddSession();
+            services.AddHttpContextAccessor();
+
 
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "ShoeStore", Version = "v1"}); });
@@ -57,11 +59,11 @@ namespace hiTommy
             }
 
             app.UseHttpsRedirection();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

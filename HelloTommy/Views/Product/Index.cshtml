@@ -34,6 +34,14 @@
                     <input type="hidden" name="shoeId" value="@Model.Shoe.Id" />
                     <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">
                 </div>
+                <div class="addToCart">
+                    <p class="button">
+                        <a class"btn btn-primary"
+                           asp-controller="ShoppingCart"
+                           asp-action="AddToShoppingCart"
+                           asp-route-Id="@Model.Shoe.Id">Add to cart</a>
+                    </p>
+                </div>
             </form>
         </div>
     </div>

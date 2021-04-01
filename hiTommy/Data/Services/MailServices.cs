@@ -32,7 +32,6 @@ namespace hiTommy.Data.Services
             var receiverEmail = new MailAddress(mailHelper.CustomerEmail, "Receiver");
             var password = _config["EmailPassword"];
             var sub = $"Order: {mailHelper.OrderId} Confirmed";
-            var message = "";
             var body = PopulateBody(mailHelper);
             var smtp = new SmtpClient
             {
@@ -64,7 +63,6 @@ namespace hiTommy.Data.Services
                 var receiverEmail = new MailAddress(_config["EmailName"], "Receiver");
                 var password = _config["EmailPassword"];
                 var sub = $"New Order: #{mailHelper.OrderId} Received";
-                var message = "";
                 var body = PopulateBody(mailHelper);
                 var smtp = new SmtpClient
                 {

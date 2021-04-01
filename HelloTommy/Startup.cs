@@ -1,4 +1,5 @@
 using hiTommy.Data;
+using hiTommy.Data.Models;
 using hiTommy.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,7 @@ namespace HelloTommy
             services.AddTransient<CustomerService>();
             services.AddTransient<OrderService>();
             services.AddTransient<MailServices>();
+            services.AddScoped<ShoppingCart>( sp => ShoppingCart.GetCart(sp));
             services.AddDbContext<Data.ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ShoeStoreConnectionString")));
@@ -38,7 +40,11 @@ namespace HelloTommy
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Data.ApplicationDbContext>();
+            services.AddSession();
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
+            
+            
 
             services.AddAuthentication()
             .AddGoogle(options =>
@@ -101,11 +107,12 @@ namespace HelloTommy
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
