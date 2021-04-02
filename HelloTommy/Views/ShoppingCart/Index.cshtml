@@ -1,42 +1,46 @@
 ﻿@model ShoppingCartViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/checkout.css")">
 }
 
-<h2> Your Shopping Cart</h2>
-<table class="table table-bordered table-striped">
-    <thread>
-        <tr>
-            <th>Selected Amount</th>
-            <th>Shoe</th>
-            <th class="text-right">Price</th>
-            <th class="text-right">Subtotal</th>
-        </tr>
+<h3 id="header-text">Cart</h3>
+<h5 id="selected-products">Selected products</h5>
+<div class="main-checkout-container">
+    <section class="checkout-container">
+        <div class="selectedProducts-container">
+            <div class="product-container">
+                @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+                {
+                    <div id="" class="product-item">
+                        <div class="product-item-left">
+                            <p class="product-name">@item.Shoe.Name</p>
+                            <p class="product-size">Size: @item.Size</p>
+                            <img src="@item.Shoe.PictureUrl" class="product-image-top" />
+                        </div>
+                        <div class="product-item-right">
+                            <p class="product-price">@item.Shoe.Price SEK</p>
+                            <button id="" class="productDetails-btn">Details</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="checkout-details-container hidden">
+                        <div class="details-box">
+                            <div class="details-product-description">@item.Shoe.Description</div>
+                            <img src="@item.Shoe.PictureUrl" class="details-product-image" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+<form action="/Checkout" method="post" id="form-container">
+    <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Checkout">
+    </form>
 
-    </thread>
-    <tbody>
-        @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
-            {
-        <tr>
-            <td class="text-center">@line.Amount</td>
-            <td class="text-left">@line.Shoe.Name</td>
-            <td class="text-right">@line.Shoe.Price.ToString("c")</td>
-            <td class="text-right">
-            @((line.Amount*line.Shoe.Price).ToString())</td>
 
-        </tr>
-            }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-right">Total:</td>
-            <td class="text-right">
-                @Model.ShoppingCartTotal.ToString("c")
-            </td>
-        </tr>
-    </tfoot>
-
-
-</table>
+    @section Scripts{
+        <script src="@Url.Content("~/js/checkout.js")"></script>
+    }

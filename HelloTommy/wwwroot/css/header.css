@@ -8,15 +8,21 @@
     height: 12vh;
 }
 
-    .box-header h1 {
-        font-family: 'Montserrat Subrayada', sans-serif;
-        letter-spacing: 0.3rem;
-        font-size: 5rem;
-        padding: 1rem;
-        color: white;
-        transition: all 200ms ease-in-out;
-    }
+.box-header h1 {
+    font-family: 'Montserrat Subrayada', sans-serif;
+    letter-spacing: 0.3rem;
+    font-size: 5rem;
+    padding: 1rem;
+    color: white;
+    transition: all 200ms ease-in-out;
+}
 
-    .box-header h1:hover {
-        color: #999;
+.box-header h1:hover {
+    color: #999;
+}
+
+@media screen and (max-width: 500px) {
+   .box-header h1 {
+        font-size: 3.5rem;
     }
+}

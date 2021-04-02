@@ -35,13 +35,10 @@
                     <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Buy Now">
                 </div>
                 <div class="addToCart">
-                    <p class="button">
-                        <a class"btn btn-primary"
-                           asp-controller="ShoppingCart"
-                           asp-action="AddToShoppingCart"
-                           asp-route-size="@Model.Shoe.Sizes[0].Size"
-                           asp-route-Id="@Model.Shoe.Id">Add to cart</a>
-                    </p>
+                    <input type="submit" class="button" value="Add To Cart"
+                            asp-controller="ShoppingCart"
+                            asp-action="AddToShoppingCart"
+                            asp-route-Id="@Model.Shoe.Id" />
                 </div>
             </form>
         </div>

@@ -36,14 +36,14 @@ namespace HelloTommy.Controllers
             return View(shoppingCartViewModel);
         }
 
-        public IActionResult AddToShoppingCart(int Id,int size, int amount)
+        public IActionResult AddToShoppingCart(int Id, int size)
         {
 
             var selectedShoe = shoeServices.GetShoeById(Id);
 
             if (selectedShoe != null)
             {
-                shoppingCart.AddToCart(selectedShoe, amount);
+                shoppingCart.AddToCart(selectedShoe, 1, size);
             }
 
             return RedirectToAction($"{Id}", "Product");

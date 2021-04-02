@@ -10,6 +10,7 @@ namespace hiTommy.Data.Models
     {
         public int ShoppingCartItemId { get; set; }
         public Shoe Shoe { get; set; }
+        public int Size { get; set; }
         public int Amount { get; set; }
         public string ShoppingCartId { get; set; }
     }

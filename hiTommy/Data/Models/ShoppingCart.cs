@@ -38,26 +38,19 @@ namespace hiTommy.Data.Models
 
         }
 
-        public void AddToCart(Shoe shoe, int amount)
+        public void AddToCart(Shoe shoe, int amount, int size)
         {
-            var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
-                s => s.Shoe.Id == shoe.Id && s.ShoppingCartId == ShoppingCartId);
-
-            if (shoppingCartItem == null)
-            {
-                shoppingCartItem = new ShoppingCartItem
+            
+                var shoppingCartItem = new ShoppingCartItem
                 {
                     ShoppingCartId = ShoppingCartId,
                     Shoe = shoe,
                     Amount = 1,
+                    Size = size
                 };
 
                 _context.ShoppingCartItems.Add(shoppingCartItem);
-            }
-            else
-            {
-                shoppingCartItem.Amount++;
-            }
+            
             _context.SaveChanges();
         }
 
