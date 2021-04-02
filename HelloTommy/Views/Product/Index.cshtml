@@ -39,6 +39,7 @@
                         <a class"btn btn-primary"
                            asp-controller="ShoppingCart"
                            asp-action="AddToShoppingCart"
+                           asp-route-size="@Model.Shoe.Sizes[0].Size"
                            asp-route-Id="@Model.Shoe.Id">Add to cart</a>
                     </p>
                 </div>

@@ -21,6 +21,7 @@
                 }
                 @*@{ Html.RenderPartial("_LoginPartial", "Common"); }*@
                 @*@{ Html.RenderPartial("_CartPartial"); }*@
+                @await Component.InvokeAsync("ShoppingCartSummary")
             </ul>
         </div>
     </nav>

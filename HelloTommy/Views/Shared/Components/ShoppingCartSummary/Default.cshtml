@@ -1,0 +1,18 @@
+﻿@model ShoppingCartViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@if (Model.ShoppingCart.ShoppingCartItems.Count > 0)
+            {
+                <li>
+                    <a>
+                         <a href="/ShoppingCart" id="cart"><i class="fa fa-shopping-cart"></i><span class="cart-amount">@Model.ShoppingCart.ShoppingCartItems.Count</span></a>
+                   
+                    </a>
+
+                </li>
+            }
+
