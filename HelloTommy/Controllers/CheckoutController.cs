@@ -25,11 +25,13 @@ namespace HelloTommy.Controllers
     {
         private readonly OrderService _orderService;
         private readonly ShoeServices shoeService;
+        private readonly ShoppingCart _shoppingCart;
         private readonly IConfiguration _config;
         private string baseURL = "https://api.playground.klarna.com/";
 
-        public CheckoutController(ShoeServices shoeService, OrderService orderService, IConfiguration config)
+        public CheckoutController(ShoppingCart shoppingCart ,ShoeServices shoeService, OrderService orderService, IConfiguration config)
         {
+            _shoppingCart = shoppingCart;
             this.shoeService = shoeService;
             _config = config;
             _orderService = orderService;
@@ -46,6 +48,8 @@ namespace HelloTommy.Controllers
         [HttpPost]
         public ActionResult CheckoutKlarna(int size, int shoeId, string email)
         {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
             dynamic myModel = new ExpandoObject();
             var _shoe = shoeService.GetShoeById(shoeId);
             myModel.Shoe = _shoe;
@@ -58,26 +62,34 @@ namespace HelloTommy.Controllers
             using var client = new HttpClient();
             client.BaseAddress = new Uri(baseURL);
             client.DefaultRequestHeaders.Add("Authorization", "Basic " + _config["KlarnaAuth"]);
-
-            var price = _shoe.Price * 100;
-
             var request = new HttpRequestMessage(HttpMethod.Post, $"checkout/v3/orders");
-
-            var order_Lines = new KlarnaPost.Order_Lines()
+            //KlarnaPost.Order_Lines[] order_lines_array = new KlarnaPost.Order_Lines[items.Count];
+            List<KlarnaPost.Order_Lines> order_lines_array = new List<KlarnaPost.Order_Lines>();
+            foreach (var item in _shoppingCart.ShoppingCartItems)
             {
-                type = "physical",
-                reference = "1337-GBG",
-                name = _shoe.Name +","+size ,
-                quantity = 1,
-                quantity_unit = "pcs",
-                unit_price = price,
-                tax_rate = 2500,
-                total_amount = price,
-                total_discount_amount = 0,
-                total_tax_amount = 0.2m * price
-            };
 
-            KlarnaPost.Order_Lines[] order_lines_array = new KlarnaPost.Order_Lines[] { order_Lines};
+                var price = item.Shoe.Price * 100;
+                
+
+                var order_Lines = new KlarnaPost.Order_Lines()
+                {
+                    type = "physical",
+                    reference = "1337-GBG",
+                    name = item.Shoe.Name + "," + item.Size,
+                    quantity = 1,
+                    quantity_unit = "pcs",
+                    unit_price = price,
+                    tax_rate = 2500,
+                    total_amount = price,
+                    total_discount_amount = 0,
+                    total_tax_amount = 0.2m * (price)
+                };
+                order_lines_array.Add(order_Lines);
+            }
+       
+
+            
+    
 
             var merchant = new KlarnaPost.Merchant_Urls()
             {
@@ -87,16 +99,16 @@ namespace HelloTommy.Controllers
                 push = @"https://www.example.com/api/push"
             };
 
-            
-           
+
+
             var root = new KlarnaPost.Rootobject()
             {
                 purchase_country = "SE",
                 purchase_currency = "SEK",
                 locale = "en-GB",
-                order_amount = order_Lines.total_amount,
-                order_tax_amount = order_Lines.total_tax_amount,
-                order_lines = order_lines_array,
+                order_amount = _shoppingCart.GetShoppingCartTotal()*100,
+                order_tax_amount = _shoppingCart.GetShoppingCartTotalTax()*100,
+                order_lines = order_lines_array.ToArray(),
                 merchant_urls = merchant,
                 merchant_reference1 = id.ToString() 
 

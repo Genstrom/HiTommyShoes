@@ -3,6 +3,7 @@
 
 @section Styles{
     <link rel="stylesheet" href="@Url.Content("~/css/checkout.css")">
+
 }
 
 <h3 id="header-text">Cart</h3>
@@ -37,8 +38,12 @@
     </section>
 </div>
 <form action="/Checkout" method="post" id="form-container">
-    <input type="submit" formaction="/Checkout" class="buy-button" name="Submit" value="Checkout">
+    <input type="submit" class="buy-button" name="Submit" value="Checkout"
+                            asp-controller="Checkout"
+                            asp-action="CheckoutKlarna"
+                            asp-route-ShoppingCart="@Model.ShoppingCart.ShoppingCartId" />
     </form>
+
 
 
     @section Scripts{

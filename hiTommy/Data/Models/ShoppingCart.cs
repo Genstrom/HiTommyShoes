@@ -106,6 +106,12 @@ namespace hiTommy.Data.Models
                 .Select(c => c.Shoe.Price * c.Amount).Sum();
             return total;
         }
+        public decimal GetShoppingCartTotalTax()
+        {
+            var total = _context.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
+                .Select(c => c.Shoe.Price * c.Amount).Sum();
+            return total * (decimal)0.2;
+        }
 
 
     }
