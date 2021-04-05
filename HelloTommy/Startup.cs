@@ -38,11 +38,12 @@ namespace HelloTommy
                     Configuration.GetConnectionString("ShoeStoreConnectionString")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<Data.ApplicationDbContext>();
             services.AddSession();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
+            services.AddRazorPages();
             
             
 
@@ -74,7 +75,7 @@ namespace HelloTommy
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = true;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -120,6 +121,7 @@ namespace HelloTommy
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+
             });
         }
     }

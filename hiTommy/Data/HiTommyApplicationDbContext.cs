@@ -1,10 +1,12 @@
 ﻿using hiTommy.Data.Models;
 using hiTommy.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace hiTommy.Data
 {
-    public class HiTommyApplicationDbContext : DbContext
+    public class HiTommyApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public HiTommyApplicationDbContext(DbContextOptions<HiTommyApplicationDbContext> options) : base(options)
         {

@@ -19,7 +19,7 @@
                     </li>
 
                 }
-                @*@{ Html.RenderPartial("_LoginPartial", "Common"); }*@
+                <partial name="_LoginPartial"/>
                 @*@{ Html.RenderPartial("_CartPartial"); }*@
                 @await Component.InvokeAsync("ShoppingCartSummary")
             </ul>
