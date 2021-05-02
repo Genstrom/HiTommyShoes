@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model List<Brand>
 @{
     ViewData["Title"] = "Admin - Delete Brand";
 }
@@ -23,7 +23,7 @@
 
     <div class="brand-list-container">
         <ul>
-            @foreach (var brand in Model.Brand)
+            @foreach (var brand in @Model)
             {
                 <li>Brand: @brand.Name   Id: @brand.Id </li>
             }

@@ -21,6 +21,7 @@ namespace hiTommy.Data.Services
 
         public void AddBrand(BrandVm brand)
         {
+            if (string.IsNullOrWhiteSpace(brand.Name)) return;
             var _brand = new Brand
             {
                 Name = brand.Name

@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model hiTommy.Data.ViewModels.AdminViewModel
 @{
     ViewData["Title"] = "Admin - Delete Shoe";
 }
@@ -23,7 +23,7 @@
 
     <div class="shoe-list-container">
         <ul>
-            @foreach (var shoe in Model.AllShoes)
+            @foreach (var shoe in Model.Shoes)
             {
                 <li>ID: @shoe.Id   Name: @shoe.Name </li>
             }

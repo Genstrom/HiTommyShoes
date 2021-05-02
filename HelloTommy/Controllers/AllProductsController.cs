@@ -20,6 +20,7 @@ namespace HelloTommy.Controllers
             {
                 Shoes = _shoesService.GetAllShoes()
             };
+            
 
 
             var AllShoes = allShoesVm.Shoes;

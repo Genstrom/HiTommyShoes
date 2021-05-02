@@ -1,258 +1,104 @@
 ﻿using hiTommy.Data.Services;
 using hiTommy.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Dynamic;
 
 namespace HelloTommy.Controllers
 {
-
     [Route("admin")]
     public class AdminController : Controller
     {
-        public BrandServices _brandServices;
-
-        public ShoeServices _shoesService;
+        private readonly AdminViewModel _adminVm;
+        private BrandServices _brandServices;
+        private ShoeServices _shoesService;
 
         public AdminController(BrandServices brandServices, ShoeServices shoesService)
         {
             _brandServices = brandServices;
             _shoesService = shoesService;
+            _adminVm = new AdminViewModel
+            {
+                Brands = brandServices.GetAllBrands(),
+                Shoes = shoesService.GetAllShoes()
+            };
         }
+
         [HttpGet]
         public IActionResult Index()
         {
-            var allShoesVm = new ShoeListViewModel
-            {
-                Shoes = _shoesService.GetAllShoes()
-            };
-            var allBrandsVM = _brandServices.GetAllBrands();
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-            return View(myModel);
+            return View(_adminVm);
         }
 
         [Route("add-shoe")]
         [HttpGet]
         public IActionResult AddShoeView()
         {
-            var allShoesVm = new ShoeListViewModel
-            {
-                Shoes = _shoesService.GetAllShoes()
-            };
-            var allBrandsVM = _brandServices.GetAllBrands();
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-            return View(myModel);
+            return View(_adminVm);
         }
 
         [Route("add-shoe")]
         [HttpPost]
-        public ActionResult AddShoeView(string name, int price, int size, int quantity, int brandId, string picture, string description)
+        public ActionResult AddShoeView(ShoeViewModel shoe)
         {
-            var allShoesVm = new ShoeListViewModel
+            if (ModelState.IsValid)
             {
-                Shoes = _shoesService.GetAllShoes()
-            };
-            var allBrandsVM = _brandServices.GetAllBrands();
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var shoe = new ShoeViewModel()
-                    {
-                        Name = name,
-                        Price = price,
-                        BrandId = brandId,
-                        PictureUrl = picture,
-                        Description = description,
-                        Size = size
-                    };
-
-                    if (!string.IsNullOrWhiteSpace(shoe.Description))
-                    {
-                        _shoesService.AddShoe(shoe);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
+                
+             
+                _shoesService.AddShoe(shoe);
             }
 
-            return RedirectToAction("Index", myModel);
+            return RedirectToAction("Index", _adminVm);
         }
 
         [Route("delete-shoe")]
         [HttpGet]
         public IActionResult DeleteShoeView()
         {
-            var allShoesVm = new ShoeListViewModel
-            {
-                Shoes = _shoesService.GetAllShoes()
-            };
-            var allBrandsVM = _brandServices.GetAllBrands();
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-
-            return View(myModel);
+            return View(_adminVm);
         }
 
         [Route("delete-shoe")]
         [HttpPost]
         public ActionResult DeleteShoeView(int id)
         {
-            var allShoesVm = new ShoeListViewModel
-            {
-                Shoes = _shoesService.GetAllShoes()
-            };
-            var allBrandsVM = _brandServices.GetAllBrands();
-
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _shoesService.DeleteShoeById(id);
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
-            }
-
-            return RedirectToAction("Index", myModel);
+            _shoesService.DeleteShoeById(id);
+            return RedirectToAction("Index", _adminVm);
         }
 
         [Route("add-brand")]
         [HttpGet]
         public IActionResult AddBrandView()
         {
-            var allShoesVm = new ShoeListViewModel
-            {
-                Shoes = _shoesService.GetAllShoes()
-            };
-            var allBrandsVM = _brandServices.GetAllBrands();
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-
-            return View(myModel);
+            return View(_adminVm);
         }
 
         [Route("add-brand")]
         [HttpPost]
         public ActionResult AddBrandView(string name)
         {
-            var allShoesVm = new ShoeListViewModel
+            var brand = new BrandVm
             {
-                Shoes = _shoesService.GetAllShoes()
+                Name = name
             };
-            var allBrandsVM = _brandServices.GetAllBrands();
+            _brandServices.AddBrand(brand);
 
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var brand = new BrandVm()
-                    {
-                        Name = name,
-                    };
-
-                    if (!string.IsNullOrWhiteSpace(brand.Name))
-                    {
-                        _brandServices.AddBrand(brand);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
-            }
-
-            return RedirectToAction("Index", myModel);
+            return RedirectToAction("Index");
         }
 
         [Route("delete-brand")]
         [HttpGet]
         public IActionResult DeleteBrandView()
         {
-            var allShoesVm = new ShoeListViewModel
-            {
-                Shoes = _shoesService.GetAllShoes()
-            };
             var allBrandsVM = _brandServices.GetAllBrands();
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-
-            return View(myModel);
+            return View(allBrandsVM);
         }
 
         [Route("delete-brand")]
         [HttpPost]
         public ActionResult DeleteBrandView(int id)
         {
-            var allShoesVm = new ShoeListViewModel
-            {
-                Shoes = _shoesService.GetAllShoes()
-            };
-            var allBrandsVM = _brandServices.GetAllBrands();
+            _brandServices.DeleteBrandById(id);
 
-
-            dynamic myModel = new ExpandoObject();
-
-            myModel.AllShoes = allShoesVm.Shoes;
-            myModel.Brand = allBrandsVM;
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _brandServices.DeleteBrandById(id);
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
-            }
-
-            return RedirectToAction("Index", myModel);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -24,19 +24,19 @@
 
 </head>
 <body>
-   
-   
- 
+
+
+
     <header>
-    <div class="box box-header">
-        <a href="/" Home>
-            <h1>
-                HiTommy
-            </h1>
-        </a>
-    </div>
-    @await Component.InvokeAsync("NavBar")
-        </header>
+        <div class="box box-header">
+            <a href="/" Home>
+                <h1>
+                    HiTommy
+                </h1>
+            </a>
+        </div>
+        @await Component.InvokeAsync("NavBar")
+    </header>
 
     <div class="wrapper">
         <main>@RenderBody()</main>
@@ -58,10 +58,13 @@
         </footer>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
     @await RenderSectionAsync("Scripts", false)
 </body>
 </html>

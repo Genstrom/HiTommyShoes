@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model hiTommy.Data.ViewModels.AdminViewModel
 @{
     ViewData["Title"] = "Admin";
 }
@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var shoe in Model.AllShoes)
+                    @foreach (var shoe in Model.Shoes)
                     {
                         <tr>
                             <td>@shoe.Id</td>
@@ -39,7 +39,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var brand in Model.Brand)
+                    @foreach (var brand in Model.Brands)
                     {
                         <tr>
                             <td>@brand.Id</td>
