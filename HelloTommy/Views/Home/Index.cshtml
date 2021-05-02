@@ -1,11 +1,11 @@
-﻿@model List<hiTommy.Models.Shoe>
+﻿@model hiTommy.Data.ViewModels.ShoeListViewModel
 @{
     ViewData["Title"] = "Sneakers";
 }
 
 
 <div class="main-container">
-    @foreach (var shoe in Model.Take(9))
+    @foreach (var shoe in Model.Shoes.Take(9))
     {
         <div class="product-card">
             <a href="/Product/@(shoe.Id)" class="product-image">

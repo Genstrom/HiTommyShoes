@@ -88,8 +88,7 @@ namespace HelloTommy.Controllers
         [HttpGet]
         public IActionResult DeleteBrandView()
         {
-            var allBrandsVM = _brandServices.GetAllBrands();
-            return View(allBrandsVM);
+            return View(_adminVm);
         }
 
         [Route("delete-brand")]

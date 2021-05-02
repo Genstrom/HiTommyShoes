@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using hiTommy.Data.Models;
 using hiTommy.Data.ViewModels;
+using hiTommy.Models;
 
 namespace hiTommy.Data.Services
 {
@@ -28,9 +29,14 @@ namespace hiTommy.Data.Services
         }
 
 
-        public void UpdateOrder(Order _order)
+        public void UpdateOrder(string OrderId, Customers customer, List<Shoe>shoes)
         {
-            _context.Order.Update(_order);
+            var order = GetOrderById(int.Parse(OrderId));
+            order.OrderDateTime = DateTime.Now;
+            order.CustomerId = customer.Id;
+            order.Customer = customer;
+            order.OrderList = shoes;
+            _context.Order.Update(order);
             _context.SaveChanges();
         }
 
@@ -47,9 +53,24 @@ namespace hiTommy.Data.Services
             _context.SaveChanges();
         }
 
-        public void AddOrderRows(List<OrderRows> orderRowsList)
+        public void AddOrderRows(List<Shoe> orderList,int OrderId)
         {
-            _context.OrderRows.AddRange(orderRowsList);
+            var orderRows = new List<OrderRows>();
+            foreach (var item in orderList)
+            {
+                orderRows.Add(
+                new OrderRows()
+                {
+                    OrderItemName = item.Name,
+                    OrderItemPrice = item.Price.ToString(),
+                    OrderItemType = item.ToString(),
+                    OrderId = OrderId
+                }
+                );
+            }
+
+
+            _context.OrderRows.AddRange(orderRows);
         }
     }
 }

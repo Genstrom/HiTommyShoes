@@ -22,10 +22,11 @@ namespace HelloTommy.Controllers
         private readonly OrderService _orderService;
         private readonly QuantityService _quantityService;
         private readonly ShoeServices _shoesService;
+        private readonly MailCreator _mailCreator;
 
         public OrderConfirmedController(MailServices mailServices, CustomerService customerService,
             OrderService orderService, IConfiguration config, ShoeServices shoesService,
-            QuantityService quantityService)
+            QuantityService quantityService, MailCreator mailCreator)
         {
             _shoesService = shoesService;
             _config = config;
@@ -33,6 +34,8 @@ namespace HelloTommy.Controllers
             _orderService = orderService;
             _customerService = customerService;
             _mailHelper = mailServices;
+            _mailCreator = mailCreator;
+            
         }
 
         [Route("{order_id?}")]
@@ -45,107 +48,33 @@ namespace HelloTommy.Controllers
             var request = new HttpRequestMessage(HttpMethod.Get, $"checkout/v3/orders/{order_id}");
             request.Content = new StringContent("", Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.Add("Authorization", "Basic " + _config["KlarnaAuth"]);
-
             var result = client.SendAsync(request);
-
             var resultString = result.Result.Content.ReadAsStringAsync();
-
             var klarna = JsonConvert.DeserializeObject<Rootobject>(resultString.Result);
             var shoeArray = klarna.order_lines[0].name.Split(',');
             var shoeName = shoeArray[0];
             var size = int.Parse(shoeArray[1]);
             var _shoe = _shoesService.GetShoeByName(shoeName);
+            var orderList = new List<Shoe>();
+            orderList.Add(_shoe);
             //_quantityService.RemoveQuantityOnShoeByIdAndSize(_shoe.Id, size);
-
 
             var customer = _customerService.GetCustomerByEmail(klarna.billing_address.email);
             if (customer == null)
             {
-                var customerVm = new CustomerVm
-                {
-                    FirstName = klarna.billing_address.given_name,
-                    LastName = klarna.billing_address.family_name,
-                    Email = klarna.billing_address.email,
-                    PostalCode = klarna.billing_address.postal_code,
-                    Address = klarna.billing_address.street_address,
-                    City = klarna.billing_address.city,
-                    TelephoneNumber = klarna.billing_address.phone
-                };
-                _customerService.AddCustomer(customerVm);
+                _customerService.CreateCustomerVm(klarna);
             }
-
-
-            var orderList = new List<Shoe>();
-            orderList.Add(_shoe);
-
+          
             customer = _customerService.GetCustomerByEmail(klarna.billing_address.email);
-            var order = _orderService.GetOrderById(int.Parse(klarna.merchant_reference1));
-            order.OrderDateTime = DateTime.Now;
-            order.CustomerId = customer.Id;
-            order.Customer = customer;
-            order.OrderList = orderList;
-            var orderRows = new List<OrderRows>();
-            foreach (var item in orderList)
-            {
-                orderRows.Add(
-                new OrderRows()
-                {
-                    OrderItemName = item.Name,
-                    OrderItemPrice = item.Price.ToString(),
-                    OrderItemType = item.ToString(),
-                    OrderId = order.OrderId
-                }
-                );
-            }
-
-            var mailhelper = MailCreator.MailInfoCreator(klarna, order, size);
-            _orderService.AddOrderRows(orderRows);
-            _orderService.UpdateOrder(order);
+            var mailhelper = _mailCreator.MailInfoCreator(klarna,size);
+            _orderService.AddOrderRows(orderList, int.Parse(klarna.merchant_reference1));
+            _orderService.UpdateOrder(klarna.merchant_reference1, customer,orderList);
             _mailHelper.OrderConfirmationMail(mailhelper);
             _mailHelper.OrderReceivedEmail(mailhelper);
 
             return View(klarna);
         }
 
-        /*[HttpPost]
-        public IActionResult Index(Shoe Shoe, string name, string email, string message, string subject)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var senderEmail = new MailAddress(_config["SenderEmail"], "HiTommy Order");
-                    var receiverEmail = new MailAddress(_config["EmailName"], "Receiver");
-                    var password = _config["EmailPasswword"];
-                    var sub = subject;
-                    var body = $"From Name: {name} Email:{email} \n{message}";
-                    var smtp = new SmtpClient
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    {
-                        Subject = sub,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(mess);
-                    }
-
-                    return View();
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
-            }
-
-            return View();
-        }*/
+       
     }
 }

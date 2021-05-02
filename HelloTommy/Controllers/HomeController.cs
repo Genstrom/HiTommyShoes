@@ -25,9 +25,7 @@ namespace HelloTommy.Controllers
                 Shoes = _shoesService.GetAllShoes()
             };
 
-            var allShoes = allShoesVm.Shoes;
-
-            return View(allShoes);
+            return View(allShoesVm);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using HelloTommy.Models;
+using hiTommy.Data.HelperClasses;
 using hiTommy.Data.Models;
+using hiTommy.Data.Services;
 using hiTommy.Data.ViewModels;
 
 namespace hiTommy.Data.Services
@@ -85,6 +90,21 @@ namespace hiTommy.Data.Services
             }).FirstOrDefault();
 
             return _customer;
+        }
+
+        public void CreateCustomerVm(Klarna.Rootobject klarna)
+        {
+            var customerVm = new CustomerVm
+            {
+                FirstName = klarna.billing_address.given_name,
+                LastName = klarna.billing_address.family_name,
+                Email = klarna.billing_address.email,
+                PostalCode = klarna.billing_address.postal_code,
+                Address = klarna.billing_address.street_address,
+                City = klarna.billing_address.city,
+                TelephoneNumber = klarna.billing_address.phone
+            };
+            AddCustomer(customerVm);
         }
     }
 }

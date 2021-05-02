@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Web;
+using hiTommy.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 
 namespace hiTommy.Data.Services
@@ -113,6 +114,33 @@ namespace hiTommy.Data.Services
             body = body.Replace("{ImageUrl}", helper.OrderList[0].PictureUrl);
             body = body.Replace("{ProductSize}", helper.ProductSize.ToString());
             return body;
+        }
+
+        public void ContactEmail(EmailViewModel emailVM)
+        {
+            
+            var senderEmail = new MailAddress(_config["EmailName"], "HelloTommyShoes");
+            var receiverEmail = new MailAddress(_config["SenderEmail"], "HelloTommyShoes");
+            var password = _config["EmailPassword"];
+            var sub = emailVM.Subject;
+            var body = $"From Name: {emailVM.Name} Email:{emailVM.Email} \n{emailVM.Message}";
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(senderEmail.Address, password)
+            };
+            using (var mess = new MailMessage(senderEmail, receiverEmail)
+            {
+                Subject = sub,
+                Body = body
+            })
+            {
+                smtp.Send(mess);
+            }
         }
 
     }

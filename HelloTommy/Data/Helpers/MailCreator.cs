@@ -5,16 +5,22 @@ using System.Threading.Tasks;
 using HelloTommy.Models;
 using hiTommy.Data.HelperClasses;
 using hiTommy.Data.Models;
+using hiTommy.Data.Services;
 
 namespace HelloTommy
 {
     public class MailCreator
     {
+        private readonly OrderService _orderService;
 
-
-
-        public static MailHelper MailInfoCreator(Klarna.Rootobject klarna, Order order, int size)
+        public MailCreator(OrderService orderService)
         {
+            _orderService = orderService;
+        }
+
+        public MailHelper MailInfoCreator(Klarna.Rootobject klarna, int size)
+        {
+            var order = _orderService.GetOrderById(int.Parse(klarna.merchant_reference1));
             return new MailHelper()
             {
                 OrderId = order.OrderId.ToString(),
@@ -35,5 +41,7 @@ namespace HelloTommy
             };
 
         }
+
+
     }
 }

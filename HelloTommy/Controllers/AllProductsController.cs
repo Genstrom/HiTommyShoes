@@ -21,12 +21,7 @@ namespace HelloTommy.Controllers
                 Shoes = _shoesService.GetAllShoes()
             };
             
-
-
-            var AllShoes = allShoesVm.Shoes;
-
-
-            return View(AllShoes);
+            return View(allShoesVm);
         }
     }
 }

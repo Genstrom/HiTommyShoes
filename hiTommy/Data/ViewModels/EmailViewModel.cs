@@ -1,4 +1,17 @@
-$HEADER$namespace $NAMESPACE$
+using System.ComponentModel.DataAnnotations;
+
+namespace hiTommy.Data.ViewModels
 {
-  public class $CLASS$ {$END$}
+    public class EmailViewModel
+    {
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+        [Required]
+        public string Message { get; set; }
+        [Required]
+        public string Subject { get; set; }
+    }
 }

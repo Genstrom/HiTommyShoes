@@ -1,6 +1,8 @@
 using System;
 using System.Net;
 using System.Net.Mail;
+using hiTommy.Data.Services;
+using hiTommy.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -10,56 +12,29 @@ namespace HelloTommy.Controllers
     public class ContactController : Controller
     {
         private readonly IConfiguration _config;
+        private readonly MailServices _mailservices;
 
-        public ContactController(IConfiguration config)
+        public ContactController(IConfiguration config,MailServices mailServices)
         {
             _config = config;
+            _mailservices = mailServices;
         }
 
         public IActionResult Index()
         {
-            return View();
+            
+            return View(new EmailViewModel());
         }
 
         [HttpPost]
-        public ActionResult Index(string name, string email, string message, string subject)
+        public ActionResult SendEmail(EmailViewModel _emailVM)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var senderEmail = new MailAddress(_config["EmailName"], "HelloTommyShoes");
-                    var receiverEmail = new MailAddress(_config["EmailName"], "Receiver");
-                    var password = _config["EmailPassword"];
-                    var sub = subject;
-                    var body = $"From Name: {name} Email:{email} \n{message}";
-                    var smtp = new SmtpClient
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    {
-                        Subject = sub,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(mess);
-                    }
-
-                    return View();
-                }
+                _mailservices.ContactEmail(_emailVM);
             }
-            catch (Exception)
-            {
-                ViewBag.Error = "Some Error";
-            }
-
-            return View();
+   
+            return View("Index");
         }
     }
 }

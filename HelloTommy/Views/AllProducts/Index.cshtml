@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model hiTommy.Data.ViewModels.ShoeListViewModel
 @{
     ViewData["Title"] = "All Sneakers";
 
@@ -8,7 +8,7 @@
 
 <div class="main-container">
 
-    @foreach (var shoe in Model)
+    @foreach (var shoe in Model.Shoes)
     {
         <div class="product-card">
             <a href="/Product/@(shoe.Id)" class="product-image">

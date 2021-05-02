@@ -30,9 +30,9 @@ namespace hiTommy.Data.Services
             _context.SaveChanges();
         }
 
-        public BrandWithShoesListViewModel GetShoesByBrandId(int orderId)
+        public BrandWithShoesListViewModel GetShoesByBrandId(int brandId)
         {
-            var _brand = _context.Brands.Where(n => n.Id == orderId).Select(n => new BrandWithShoesListViewModel
+            var _brand = _context.Brands.Where(n => n.Id == brandId).Select(n => new BrandWithShoesListViewModel
             {
                 Shoes = n.Shoes
             }).FirstOrDefault();
