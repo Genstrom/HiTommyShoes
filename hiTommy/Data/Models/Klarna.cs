@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using hiTommy.Data.Models;
+using hiTommy.Data.Services;
 
 namespace HelloTommy.Models
 {
@@ -90,6 +92,33 @@ namespace HelloTommy.Models
             public int total_amount { get; set; }
             public int total_discount_amount { get; set; }
             public int total_tax_amount { get; set; }
+        }
+        
+        
+        public static KlarnaPost.Rootobject CreateKlarnaRootObject(ShoppingCart _shoppingCart, OrderService _orderService, List<ShoppingCartItem> items, int id )
+        {
+            
+            var merchant = new KlarnaPost.Merchant_Urls()
+            {
+                terms = @"https://www.example.com/terms.html",
+                checkout = @"https://www.example.com/checkout.html",
+                confirmation = @"https://localhost:44383/OrderConfirmed/{checkout.order.id}",
+                push = @"https://www.example.com/api/push"
+            };
+           
+            var root = new KlarnaPost.Rootobject()
+            {
+                purchase_country = "SE",
+                purchase_currency = "SEK",
+                locale = "en-GB",
+                order_amount = _shoppingCart.GetShoppingCartTotal() * 100,
+                order_tax_amount = _shoppingCart.GetShoppingCartTotalTax() * 100,
+                order_lines = _orderService.CreateOrderLines(items),
+                merchant_urls = merchant,
+                merchant_reference1 = id.ToString() 
+            };
+
+            return root;
         }
 
     }

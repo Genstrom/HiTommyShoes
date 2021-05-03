@@ -22,8 +22,9 @@ namespace hiTommy.Data.Services
             return _context.Order.ToList();
         }
 
-        public Order AddEmptyOrderAndReturnEmptyOrder(Order order)
+        public Order AddEmptyOrderAndReturnEmptyOrder()
         {
+            var order = new Order();
             _context.Add(order);
             _context.SaveChanges();
             var id = order.OrderId;

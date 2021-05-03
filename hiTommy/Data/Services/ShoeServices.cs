@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using hiTommy.Data.Models;
 using hiTommy.Data.ViewModels;
@@ -41,8 +42,21 @@ namespace hiTommy.Data.Services
             _context.Shoes.Add(_shoe);
             _context.Quantities.Add(quantity);
             _context.SaveChanges();
+        }
 
-
+        public object getNewShoeWithAllSizesVm(int shoeId, QuantityService _quantityService)
+        {
+            var _shoe = GetShoeById(shoeId);
+            return new ShoeWithAllSizesViewModel()
+            {
+                Id = shoeId,
+                Name = _shoe.Name,
+                Price = _shoe.Price,
+                BrandId = _shoe.BrandId,
+                Description = _shoe.Description,
+                PictureUrl = _shoe.PictureUrl,
+                Sizes = _quantityService.GetAllSizesById(shoeId),
+            };
         }
 
         public List<Shoe> GetAllShoes()

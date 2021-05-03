@@ -41,8 +41,6 @@ namespace HelloTommy.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-             
                 _shoesService.AddShoe(shoe);
             }
 

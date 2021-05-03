@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using hiTommy.Data.Services;
+using hiTommy.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelloTommy.Controllers
@@ -23,16 +24,9 @@ namespace HelloTommy.Controllers
         [Route("{productId:int}")]
         public IActionResult Index(int productId)
         {
-            var shoe = _shoesService.GetShoeById(productId);
-            shoe.Sizes = _quantityService.GetAllSizesById(productId);
+            var shoeWithAllSizesViewModel = _shoesService.getNewShoeWithAllSizesVm(productId,_quantityService);
 
-            var allBrandsVm = _brandServices.GetAllBrands();
-
-            dynamic mymodel = new ExpandoObject();
-            mymodel.Shoe = shoe;
-            mymodel.Brand = allBrandsVm;
-
-            return View(mymodel);
+            return View(shoeWithAllSizesViewModel);
         }
     }
 }
