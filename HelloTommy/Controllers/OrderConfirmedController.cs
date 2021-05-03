@@ -51,12 +51,7 @@ namespace HelloTommy.Controllers
             var result = client.SendAsync(request);
             var resultString = result.Result.Content.ReadAsStringAsync();
             var klarna = JsonConvert.DeserializeObject<Rootobject>(resultString.Result);
-            var shoeArray = klarna.order_lines[0].name.Split(',');
-            var shoeId = int.Parse(shoeArray[0]);
-            var size = int.Parse(shoeArray[1]);
-            var _shoe = _shoesService.GetShoeById(shoeId);
-            var orderList = new List<Shoe>();
-            orderList.Add(_shoe);
+            var shoeVmList = _orderService.GetOrderList(klarna.order_lines, _shoesService);      
             //_quantityService.RemoveQuantityOnShoeByIdAndSize(_shoe.Id, size);
 
             var customer = _customerService.GetCustomerByEmail(klarna.billing_address.email);
@@ -67,9 +62,9 @@ namespace HelloTommy.Controllers
           
             customer = _customerService.GetCustomerByEmail(klarna.billing_address.email);
             
-            _orderService.AddOrderRows(orderList, int.Parse(klarna.merchant_reference1));
-            _orderService.UpdateOrder(klarna.merchant_reference1, customer,orderList);
-            var mailhelper = _mailCreator.MailInfoCreator(klarna, size);
+            _orderService.AddOrderRows(shoeVmList, int.Parse(klarna.merchant_reference1));
+            _orderService.UpdateOrder(klarna.merchant_reference1, customer, shoeVmList, _shoesService);
+            var mailhelper = _mailCreator.MailInfoCreator(klarna, shoeVmList[0].Size);
             _mailHelper.OrderConfirmationMail(mailhelper);
             _mailHelper.OrderReceivedEmail(mailhelper);
 

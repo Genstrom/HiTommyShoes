@@ -5,6 +5,7 @@ using HelloTommy.Models;
 using hiTommy.Data.Models;
 using hiTommy.Data.ViewModels;
 using hiTommy.Models;
+using static HelloTommy.Models.Klarna;
 
 namespace hiTommy.Data.Services
 {
@@ -32,18 +33,23 @@ namespace hiTommy.Data.Services
         }
 
 
-        public void UpdateOrder(string OrderId, Customers customer, List<Shoe>shoes)
+        public void UpdateOrder(string OrderId, Customers customer, List<ShoeViewModel>shoes, ShoeServices _shoeServices)
         {
+            var shoeList = new List<Shoe>();
+            foreach (var item in shoes)
+            {
+                shoeList.Add(_shoeServices.GetShoeByName(item.Name));
+            }
             var order = GetOrderById(int.Parse(OrderId));
             order.OrderDateTime = DateTime.Now;
             order.CustomerId = customer.Id;
             order.Customer = customer;
-            order.OrderList = shoes;
+            order.OrderList = shoeList;
             _context.Order.Update(order);
             _context.SaveChanges();
         }
 
-        public KlarnaPost.Order_Lines[] CreateOrderLines(List<ShoppingCartItem>items)
+        public KlarnaPost.Order_Lines[] CreateOrderLines(List<ShoppingCartItem> items)
         {
             List<KlarnaPost.Order_Lines> order_lines_array = new List<KlarnaPost.Order_Lines>();
             foreach (var item in items)
@@ -69,6 +75,30 @@ namespace hiTommy.Data.Services
             return order_lines_array.ToArray();
         }
 
+        public List<ShoeViewModel> GetOrderList(Order_Lines[] orderLines, ShoeServices _shoeServices)
+        {
+            var shoeVmList = new List<ShoeViewModel>();
+            foreach (var item in orderLines)
+            {
+                var shoeArray = item.name.Split(',');
+                var _shoes = _shoeServices.GetShoeById(int.Parse(shoeArray[0]));
+                var shoeVm = new ShoeViewModel
+                {
+                    Name = _shoes.Name,
+                    Price = _shoes.Price,
+                    BrandId = _shoes.BrandId,
+                    Description = _shoes.Description,
+                    PictureUrl = _shoes.PictureUrl,
+                    Size = int.Parse(shoeArray[1]),
+                    Quantity = 1
+
+                };
+                shoeVmList.Add(shoeVm);
+
+            }
+            return shoeVmList;
+        }
+
         public Order GetOrderById(int id)
         {
             return _context.Order.FirstOrDefault(n => n.OrderId == id);
@@ -82,7 +112,7 @@ namespace hiTommy.Data.Services
             _context.SaveChanges();
         }
 
-        public void AddOrderRows(List<Shoe> orderList,int OrderId)
+        public void AddOrderRows(List<ShoeViewModel> orderList,int OrderId)
         {
             var orderRows = new List<OrderRows>();
             foreach (var item in orderList)

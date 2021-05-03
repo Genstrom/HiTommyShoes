@@ -34,7 +34,7 @@ namespace HelloTommy.Controllers
         
         [Route("Checkout")]
         [HttpPost]
-        public ActionResult CheckoutKlarna(int size, int shoeId, string email)
+        public ActionResult CheckoutKlarna(int size, int shoeId)
         {
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
@@ -48,17 +48,12 @@ namespace HelloTommy.Controllers
             var root = CreateKlarnaRootObject(_shoppingCart, _orderService, items, order.OrderId);
             var jsonContent = JsonConvert.SerializeObject(root, Formatting.Indented);
             request.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            Debug.WriteLine(jsonContent);
 
             var result = client.SendAsync(request);
 
             var resultString = result.Result.Content.ReadAsStringAsync();
 
-            Debug.WriteLine(resultString.Result);
-
             var klarna = JsonConvert.DeserializeObject<Rootobject>(resultString.Result);
-
-            Debug.WriteLine(klarna);
 
             klarna.merchant_urls.confirmation = $"https://localhost:44383/OrderConfirmed/{klarna.order_id}";
 
