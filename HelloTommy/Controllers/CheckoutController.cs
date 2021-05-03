@@ -50,10 +50,7 @@ namespace HelloTommy.Controllers
         {
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
-            dynamic myModel = new ExpandoObject();
             var _shoe = shoeService.GetShoeById(shoeId);
-            myModel.Shoe = _shoe;
-            myModel.Size = size;
 
             var order = new Order();
             order = _orderService.AddEmptyOrderAndReturnEmptyOrder(order);
@@ -64,32 +61,6 @@ namespace HelloTommy.Controllers
             client.DefaultRequestHeaders.Add("Authorization", "Basic " + _config["KlarnaAuth"]);
             var request = new HttpRequestMessage(HttpMethod.Post, $"checkout/v3/orders");
             //KlarnaPost.Order_Lines[] order_lines_array = new KlarnaPost.Order_Lines[items.Count];
-            List<KlarnaPost.Order_Lines> order_lines_array = new List<KlarnaPost.Order_Lines>();
-            foreach (var item in _shoppingCart.ShoppingCartItems)
-            {
-
-                var price = item.Shoe.Price * 100;
-                
-
-                var order_Lines = new KlarnaPost.Order_Lines()
-                {
-                    type = "physical",
-                    reference = "1337-GBG",
-                    name = item.Shoe.Name + "," + item.Size,
-                    quantity = 1,
-                    quantity_unit = "pcs",
-                    unit_price = price,
-                    tax_rate = 2500,
-                    total_amount = price,
-                    total_discount_amount = 0,
-                    total_tax_amount = 0.2m * (price)
-                };
-                order_lines_array.Add(order_Lines);
-            }
-       
-
-            
-    
 
             var merchant = new KlarnaPost.Merchant_Urls()
             {
@@ -99,19 +70,16 @@ namespace HelloTommy.Controllers
                 push = @"https://www.example.com/api/push"
             };
 
-
-
             var root = new KlarnaPost.Rootobject()
             {
                 purchase_country = "SE",
                 purchase_currency = "SEK",
                 locale = "en-GB",
-                order_amount = _shoppingCart.GetShoppingCartTotal()*100,
-                order_tax_amount = _shoppingCart.GetShoppingCartTotalTax()*100,
-                order_lines = order_lines_array.ToArray(),
+                order_amount = _shoppingCart.GetShoppingCartTotal() * 100,
+                order_tax_amount = _shoppingCart.GetShoppingCartTotalTax() * 100,
+                order_lines = _orderService.CreateOrderLines(items),
                 merchant_urls = merchant,
                 merchant_reference1 = id.ToString() 
-
             };
 
             var jsonContent = JsonConvert.SerializeObject(root, Formatting.Indented);
@@ -129,7 +97,6 @@ namespace HelloTommy.Controllers
             Debug.WriteLine(klarna);
 
             klarna.merchant_urls.confirmation = $"https://localhost:44383/OrderConfirmed/{klarna.order_id}";
-            myModel.Klarna = klarna;
             
             return View("Klarna", klarna);
         }

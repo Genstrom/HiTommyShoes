@@ -26,7 +26,7 @@ namespace HelloTommy.Controllers
 
         public OrderConfirmedController(MailServices mailServices, CustomerService customerService,
             OrderService orderService, IConfiguration config, ShoeServices shoesService,
-            QuantityService quantityService, MailCreator mailCreator)
+            QuantityService quantityService)
         {
             _shoesService = shoesService;
             _config = config;
@@ -34,7 +34,7 @@ namespace HelloTommy.Controllers
             _orderService = orderService;
             _customerService = customerService;
             _mailHelper = mailServices;
-            _mailCreator = mailCreator;
+            _mailCreator = new MailCreator(orderService);
             
         }
 
@@ -52,9 +52,9 @@ namespace HelloTommy.Controllers
             var resultString = result.Result.Content.ReadAsStringAsync();
             var klarna = JsonConvert.DeserializeObject<Rootobject>(resultString.Result);
             var shoeArray = klarna.order_lines[0].name.Split(',');
-            var shoeName = shoeArray[0];
+            var shoeId = int.Parse(shoeArray[0]);
             var size = int.Parse(shoeArray[1]);
-            var _shoe = _shoesService.GetShoeByName(shoeName);
+            var _shoe = _shoesService.GetShoeById(shoeId);
             var orderList = new List<Shoe>();
             orderList.Add(_shoe);
             //_quantityService.RemoveQuantityOnShoeByIdAndSize(_shoe.Id, size);
@@ -66,9 +66,10 @@ namespace HelloTommy.Controllers
             }
           
             customer = _customerService.GetCustomerByEmail(klarna.billing_address.email);
-            var mailhelper = _mailCreator.MailInfoCreator(klarna,size);
+            
             _orderService.AddOrderRows(orderList, int.Parse(klarna.merchant_reference1));
             _orderService.UpdateOrder(klarna.merchant_reference1, customer,orderList);
+            var mailhelper = _mailCreator.MailInfoCreator(klarna, size);
             _mailHelper.OrderConfirmationMail(mailhelper);
             _mailHelper.OrderReceivedEmail(mailhelper);
 
