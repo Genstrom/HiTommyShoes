@@ -60,7 +60,7 @@ namespace hiTommy.Data.Services
                 {
                     type = "physical",
                     reference = "1337-GBG",
-                    name = item.Id + "," + size,
+                    name = item.Name + ", EU " + size,
                     quantity = 1,
                     quantity_unit = "pcs",
                     unit_price = price,
@@ -81,7 +81,7 @@ namespace hiTommy.Data.Services
             foreach (var item in orderLines)
             {
                 var shoeArray = item.name.Split(',');
-                var _shoes = _shoeServices.GetShoeById(int.Parse(shoeArray[0]));
+                var _shoes = _shoeServices.GetShoeByName(shoeArray[0]);
                 var shoeVm = new ShoeViewModel
                 {
                     Name = _shoes.Name,
@@ -89,7 +89,7 @@ namespace hiTommy.Data.Services
                     BrandId = _shoes.BrandId,
                     Description = _shoes.Description,
                     PictureUrl = _shoes.PictureUrl,
-                    Size = int.Parse(shoeArray[1]),
+                    Size = int.Parse(shoeArray[1].Substring(3)),
                     Quantity = 1
 
                 };

@@ -26,3 +26,20 @@
         font-size: 3.5rem;
     }
 }
+
+/* Identity items */
+
+ul.identity-list {
+    position: absolute;
+    top: 0;
+    right: 0;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+a.nav-link.text-dark {
+    font-family: 'Arial Narrow', Arial, sans-serif, Helvetica, sans-serif;
+    color: white;
+}

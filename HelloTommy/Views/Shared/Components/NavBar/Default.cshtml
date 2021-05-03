@@ -12,15 +12,13 @@
                 <li>
                     <a href="/AllProducts">All</a>
                 </li>
-                @for (var i = 0; i < @Model.Count; i++)
+                @for (var i = 0; i < 3; i++)
                 {
                     <li>
                         <a href="/Brand/@Model[i].Name/">@Model[i].Name</a>
                     </li>
 
                 }
-                <partial name="_LoginPartial"/>
-                @*@{ Html.RenderPartial("_CartPartial"); }*@
                 @await Component.InvokeAsync("ShoppingCartSummary")
             </ul>
         </div>
