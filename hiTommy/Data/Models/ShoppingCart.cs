@@ -113,6 +113,16 @@ namespace hiTommy.Data.Models
             return total * (decimal)0.2;
         }
 
+        public List<Shoe> getShoesFromCart(List<ShoppingCartItem> shoppingCartItems)
+        {
+            var shoeList = new List<Shoe>();
+            foreach (var item in shoppingCartItems)
+            {
+                shoeList.Add(item.Shoe);
+            }
+            return shoeList;
+        }
+
 
     }
 }

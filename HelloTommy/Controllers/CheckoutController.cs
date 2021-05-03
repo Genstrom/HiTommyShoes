@@ -36,16 +36,22 @@ namespace HelloTommy.Controllers
         [HttpPost]
         public ActionResult CheckoutKlarna(int size, int shoeId)
         {
-            var items = _shoppingCart.GetShoppingCartItems();
+            
+            var items= _shoppingCart.GetShoppingCartItems();
+            var shoeList = _shoppingCart.getShoesFromCart(items);
             _shoppingCart.ShoppingCartItems = items;
-
+            if(shoeList.Count == 0)
+            {
+                shoeList.Add(shoeService.GetShoeById(shoeId));
+            }
+            
             var order = _orderService.AddEmptyOrderAndReturnEmptyOrder();
 
             using var client = new HttpClient();
             client.BaseAddress = new Uri(baseURL);
             client.DefaultRequestHeaders.Add("Authorization", "Basic " + _config["KlarnaAuth"]);
             var request = new HttpRequestMessage(HttpMethod.Post, "checkout/v3/orders");
-            var root = CreateKlarnaRootObject(_shoppingCart, _orderService, items, order.OrderId);
+            var root = CreateKlarnaRootObject(_shoppingCart, _orderService, shoeList, order.OrderId,size);
             var jsonContent = JsonConvert.SerializeObject(root, Formatting.Indented);
             request.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 

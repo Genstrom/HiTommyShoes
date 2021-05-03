@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using hiTommy.Data.Models;
 using hiTommy.Data.Services;
+using hiTommy.Models;
 
 namespace HelloTommy.Models
 {
@@ -95,9 +96,9 @@ namespace HelloTommy.Models
         }
         
         
-        public static KlarnaPost.Rootobject CreateKlarnaRootObject(ShoppingCart _shoppingCart, OrderService _orderService, List<ShoppingCartItem> items, int id )
+        public static KlarnaPost.Rootobject CreateKlarnaRootObject(ShoppingCart _shoppingCart, OrderService _orderService, List<Shoe> items, int id,int size )
         {
-            
+            var root = new KlarnaPost.Rootobject();
             var merchant = new KlarnaPost.Merchant_Urls()
             {
                 terms = @"https://www.example.com/terms.html",
@@ -106,14 +107,29 @@ namespace HelloTommy.Models
                 push = @"https://www.example.com/api/push"
             };
            
-            var root = new KlarnaPost.Rootobject()
+            if(_shoppingCart.ShoppingCartItems.Count == 0)
+            {
+                 root = new KlarnaPost.Rootobject()
+                {
+                    purchase_country = "SE",
+                    purchase_currency = "SEK",
+                    locale = "en-GB",
+                    order_amount = items[0].Price*100,
+                    order_tax_amount = (items[0].Price *(decimal)0.2)*100,
+                    order_lines = _orderService.CreateOrderLines(items, size),
+                    merchant_urls = merchant,
+                    merchant_reference1 = id.ToString()
+                };
+                return root;
+            }
+             root = new KlarnaPost.Rootobject()
             {
                 purchase_country = "SE",
                 purchase_currency = "SEK",
                 locale = "en-GB",
                 order_amount = _shoppingCart.GetShoppingCartTotal() * 100,
                 order_tax_amount = _shoppingCart.GetShoppingCartTotalTax() * 100,
-                order_lines = _orderService.CreateOrderLines(items),
+                order_lines = _orderService.CreateOrderLines(items,size),
                 merchant_urls = merchant,
                 merchant_reference1 = id.ToString() 
             };

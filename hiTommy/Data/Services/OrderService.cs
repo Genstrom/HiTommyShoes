@@ -49,18 +49,18 @@ namespace hiTommy.Data.Services
             _context.SaveChanges();
         }
 
-        public KlarnaPost.Order_Lines[] CreateOrderLines(List<ShoppingCartItem> items)
+        public KlarnaPost.Order_Lines[] CreateOrderLines(List<Shoe> items, int size)
         {
             List<KlarnaPost.Order_Lines> order_lines_array = new List<KlarnaPost.Order_Lines>();
             foreach (var item in items)
             {
-                var price = item.Shoe.Price * 100;
+                var price = item.Price * 100;
 
                 var order_Lines = new KlarnaPost.Order_Lines()
                 {
                     type = "physical",
                     reference = "1337-GBG",
-                    name = item.Shoe.Id + "," + item.Size,
+                    name = item.Id + "," + size,
                     quantity = 1,
                     quantity_unit = "pcs",
                     unit_price = price,
