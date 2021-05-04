@@ -1,23 +1,19 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
+﻿using HelloTommy.Models;
 using hiTommy.Data.Models;
 using hiTommy.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using static HelloTommy.Models.Klarna;
 
 namespace HelloTommy.Controllers
 {
     public class CheckoutController : Controller
     {
         private readonly IConfiguration _config;
+        private readonly Klarna _klarna;
         private readonly OrderService _orderService;
         private readonly ShoppingCart _shoppingCart;
         private readonly ShoeServices shoeService;
-        private string baseURL = "https://api.playground.klarna.com/";
+
 
         public CheckoutController(ShoppingCart shoppingCart, ShoeServices shoeService, OrderService orderService,
             IConfiguration config)
@@ -26,42 +22,19 @@ namespace HelloTommy.Controllers
             this.shoeService = shoeService;
             _config = config;
             _orderService = orderService;
+            _klarna = new Klarna(orderService, shoppingCart, config,shoeService);
         }
+
         public IActionResult Index()
         {
             return Redirect("/");
         }
-        
+
         [Route("Checkout")]
         [HttpPost]
         public ActionResult CheckoutKlarna(int size, int shoeId)
         {
-            
-            var items= _shoppingCart.GetShoppingCartItems();
-            var shoeList = _shoppingCart.getShoesFromCart(items);
-            _shoppingCart.ShoppingCartItems = items;
-            if(shoeList.Count == 0)
-            {
-                shoeList.Add(shoeService.GetShoeById(shoeId));
-            }
-            
-            var order = _orderService.AddEmptyOrderAndReturnEmptyOrder();
-
-            using var client = new HttpClient();
-            client.BaseAddress = new Uri(baseURL);
-            client.DefaultRequestHeaders.Add("Authorization", "Basic " + _config["KlarnaAuth"]);
-            var request = new HttpRequestMessage(HttpMethod.Post, "checkout/v3/orders");
-            var root = CreateKlarnaRootObject(_shoppingCart, _orderService, shoeList, order.OrderId,size);
-            var jsonContent = JsonConvert.SerializeObject(root, Formatting.Indented);
-            request.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            var result = client.SendAsync(request);
-
-            var resultString = result.Result.Content.ReadAsStringAsync();
-
-            var klarna = JsonConvert.DeserializeObject<Rootobject>(resultString.Result);
-
-            klarna.merchant_urls.confirmation = $"https://localhost:44383/OrderConfirmed/{klarna.order_id}";
+            var klarna = _klarna.ConsumeKlarnaApi(size, shoeId, _shoppingCart);
 
             return View("Klarna", klarna);
         }

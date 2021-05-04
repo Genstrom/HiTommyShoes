@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using hiTommy.Data.Services;
 
 namespace hiTommy.Data.Models
 {
@@ -13,6 +14,7 @@ namespace hiTommy.Data.Models
     {
 
         private readonly HiTommyApplicationDbContext _context;
+ 
         
         public string ShoppingCartId { get; set; }
 
@@ -21,6 +23,7 @@ namespace hiTommy.Data.Models
         private ShoppingCart(HiTommyApplicationDbContext appcontext)
         {
             _context = appcontext;
+          
         }
 
         public static ShoppingCart GetCart(IServiceProvider services)
@@ -29,7 +32,6 @@ namespace hiTommy.Data.Models
                 .HttpContext.Session;
 
             var context = services.GetService<HiTommyApplicationDbContext>();
-
             string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
 
             session.SetString("CartId", cartId);
@@ -82,11 +84,9 @@ namespace hiTommy.Data.Models
 
         public List<ShoppingCartItem> GetShoppingCartItems()
         {
-            return ShoppingCartItems ??
-                (ShoppingCartItems =
-                _context.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
+            return ShoppingCartItems ??= _context.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
                 .Include(s => s.Shoe)
-                .ToList());
+                .ToList();
         }
 
         public void ClearCart()
@@ -123,6 +123,17 @@ namespace hiTommy.Data.Models
             return shoeList;
         }
 
+        public List<Shoe> OrderList(int shoeId, ShoeServices _shoeServices)
+        {
+            var items = GetShoppingCartItems();
+            var shoeList = getShoesFromCart(items);
+            ShoppingCartItems = items;
+            if (shoeList.Count == 0)
+            {
+                shoeList.Add(_shoeServices.GetShoeById(shoeId));
+            }
 
+            return shoeList;
+        }
     }
 }
