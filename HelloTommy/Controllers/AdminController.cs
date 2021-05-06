@@ -1,6 +1,9 @@
-﻿using hiTommy.Data.Services;
+﻿using hiTommy.Data.Repositories;
+using hiTommy.Data.Services;
 using hiTommy.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using hiTommy.Interfaces;
+using System.Threading.Tasks;
 
 namespace HelloTommy.Controllers
 {
@@ -8,16 +11,16 @@ namespace HelloTommy.Controllers
     public class AdminController : Controller
     {
         private readonly AdminViewModel _adminVm;
-        private BrandServices _brandServices;
+        private IUnitOfWork _unitOfWork;
         private ShoeServices _shoesService;
 
-        public AdminController(BrandServices brandServices, ShoeServices shoesService)
+        public AdminController(IUnitOfWork unitOfWork, ShoeServices shoesService)
         {
-            _brandServices = brandServices;
+            _unitOfWork = unitOfWork;
             _shoesService = shoesService;
             _adminVm = new AdminViewModel
             {
-                Brands = brandServices.GetAllBrands(),
+                Brands = _unitOfWork.BrandService.GetAllBrands(),
                 Shoes = shoesService.GetAllShoes()
             };
         }
@@ -71,15 +74,16 @@ namespace HelloTommy.Controllers
 
         [Route("add-brand")]
         [HttpPost]
-        public ActionResult AddBrandView(string name)
+        public async Task<ActionResult> AddBrandView(AdminViewModel adminVM)
         {
             var brand = new BrandVm
             {
-                Name = name
+                Name = adminVM.Brand.Name
             };
-            _brandServices.AddBrand(brand);
+            _unitOfWork.BrandService.AddBrand(brand);
+            if(await _unitOfWork.Complete()) return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
+            return View("Error");
         }
 
         [Route("delete-brand")]
@@ -93,7 +97,8 @@ namespace HelloTommy.Controllers
         [HttpPost]
         public ActionResult DeleteBrandView(int id)
         {
-            _brandServices.DeleteBrandById(id);
+            _unitOfWork.BrandService.DeleteBrandById(id);
+            _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }

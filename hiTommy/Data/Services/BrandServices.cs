@@ -5,7 +5,7 @@ using hiTommy.Models;
 
 namespace hiTommy.Data.Services
 {
-    public class BrandServices
+    public class BrandServices : IBrandServices
     {
         private readonly HiTommyApplicationDbContext _context;
 
@@ -27,7 +27,6 @@ namespace hiTommy.Data.Services
                 Name = brand.Name
             };
             _context.Brands.Add(_brand);
-            _context.SaveChanges();
         }
 
         public BrandWithShoesListViewModel GetShoesByBrandId(int brandId)
@@ -56,7 +55,6 @@ namespace hiTommy.Data.Services
             if (_brand is not null)
             {
                 _context.Brands.Remove(_brand);
-                _context.SaveChanges();
             }
         }
     }

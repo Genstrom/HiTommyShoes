@@ -1,5 +1,7 @@
 using hiTommy.Data;
+using hiTommy.Data.Repositories;
 using hiTommy.Data.Services;
+using hiTommy.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -37,7 +39,7 @@ namespace hiTommy
                     options => Configuration.Bind("CookieSettings", options));
             services.AddTransient<ShoeServices>();
             services.AddTransient<OrderService>();
-            services.AddTransient<BrandServices>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<CustomerService>();
             services.AddTransient<QuantityService>();
             services.AddSession();

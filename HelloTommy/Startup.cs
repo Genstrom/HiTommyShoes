@@ -1,6 +1,8 @@
 using hiTommy.Data;
 using hiTommy.Data.Models;
+using hiTommy.Data.Repositories;
 using hiTommy.Data.Services;
+using hiTommy.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,9 +29,10 @@ namespace HelloTommy
         {
             services.AddDbContext<HiTommyApplicationDbContext>(options => options.UseSqlServer(ShoeStoreConnectionString));
             services.AddTransient<ShoeServices>();
-            services.AddTransient<BrandServices>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<QuantityService>();
             services.AddTransient<CustomerService>();
+            services.AddTransient<BrandServices>();
             services.AddTransient<OrderService>();
             services.AddTransient<MailServices>();
             services.AddScoped<ShoppingCart>( sp => ShoppingCart.GetCart(sp));
